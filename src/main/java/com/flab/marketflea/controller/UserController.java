@@ -1,7 +1,10 @@
-package com.flab.marketflea.user;
+package com.flab.marketflea.controller;
 
+import com.flab.marketflea.dto.user.User;
+import com.flab.marketflea.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 

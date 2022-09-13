@@ -1,4 +1,6 @@
-package com.flab.marketflea.user;
+package com.flab.marketflea.service;
+
+import com.flab.marketflea.dto.user.User;
 
 import java.util.List;
 
