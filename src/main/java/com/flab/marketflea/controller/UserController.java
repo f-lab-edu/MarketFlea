@@ -24,6 +24,12 @@ public class UserController {
         return userService.get(id);
     }
 
+    /*
+    * 추가적으로 개발해야될 것
+    *
+    * 1. IdExistException 발생시 적절한 Http status code를 client에게 전달해야함.
+    *
+    * */
     @PostMapping("")
     public User save(@RequestBody User user) {
         userService.signUp(user);

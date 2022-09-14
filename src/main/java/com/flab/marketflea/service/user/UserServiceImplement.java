@@ -15,6 +15,12 @@ public class UserServiceImplement implements UserService {
 
     private final UserMapper mapper;
 
+    /*
+    * 추가적으로 개발해야할 것
+    *
+    * 1. password를 암호화한 후 mapper로 넘겨줘야함.
+    * 2. created_at과 updated_at을 해당 메소드에 작성하는 것이 적절한지 확인해야함.
+    * */
     @Override
     public final boolean signUp(User user) {
         if(isIdExist(user.getId())){
