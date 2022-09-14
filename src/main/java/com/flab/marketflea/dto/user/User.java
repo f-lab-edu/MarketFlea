@@ -1,8 +1,9 @@
 package com.flab.marketflea.dto.user;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 @Data
 @ToString
@@ -14,5 +15,6 @@ public class User {
     private String phone;
     private String email;
     private String address;
-
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
 }

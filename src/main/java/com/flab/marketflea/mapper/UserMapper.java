@@ -11,5 +11,7 @@ public interface UserMapper {
 
     public User get(String id);
 
-    public User add(User user);
+    public boolean add(User user);
+
+    public boolean isIdExist(String id);
 }

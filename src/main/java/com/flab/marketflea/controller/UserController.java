@@ -1,7 +1,7 @@
 package com.flab.marketflea.controller;
 
 import com.flab.marketflea.dto.user.User;
-import com.flab.marketflea.service.UserService;
+import com.flab.marketflea.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +26,7 @@ public class UserController {
 
     @PostMapping("")
     public User save(@RequestBody User user) {
-        userService.join(user);
+        userService.signUp(user);
         return user;
     }
 }
