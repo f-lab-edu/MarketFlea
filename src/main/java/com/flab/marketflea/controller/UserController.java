@@ -3,9 +3,12 @@ package com.flab.marketflea.controller;
 import com.flab.marketflea.dto.user.User;
 import com.flab.marketflea.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -14,25 +17,21 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("")
-    public List<User> getUser() {
-        return userService.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public User getUser(@PathVariable String id) {
-        return userService.get(id);
-    }
-
-    /*
-    * 추가적으로 개발해야될 것
-    *
-    * 1. IdExistException 발생시 적절한 Http status code를 client에게 전달해야함.
-    *
-    * */
+    // 회원가입 완료 버튼 클릭
     @PostMapping("")
-    public User save(@RequestBody User user) {
+    public void save( @Valid @RequestBody User user) {
         userService.signUp(user);
-        return user;
     }
+
+    // 회원가입 페이지에서 id 중복체그
+    @GetMapping("/{id}/exist")
+    public ResponseEntity<Void> isIdExist(@PathVariable String id) {
+        if (userService.isIdExist(id)) {
+            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }
+    }
+
 }
+

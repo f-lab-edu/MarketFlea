@@ -4,21 +4,10 @@
 
 <mapper namespace="com.flab.marketflea.mapper.UserMapper">
 
-    <select id="getAll" resultType="com.flab.marketflea.dto.user.User">
-        SELECT *
-        FROM user
-    </select>
-
-    <select id="get" resultType="com.flab.marketflea.dto.user.User">
-        SELECT *
-        FROM user
-        where id = #{id}
-    </select>
-
     <insert id="add" parameterType="com.flab.marketflea.dto.user.User">
         INSERT
-        INTO user(id, password, name, role, phone, email, address, created_at, updated_at)
-        VALUES (#{id}, #{password}, #{name}, #{role}, #{phone}, #{email}, #{address}, #{created_at}, #{updated_at})
+        INTO user(id, password, name, role, phone, email, address, createdAt, updatedAt)
+        VALUES (#{id}, #{password}, #{name}, #{role}, #{phone}, #{email}, #{address}, now(), now())
     </insert>
 
     <select id="isIdExist" resultType="_boolean">
