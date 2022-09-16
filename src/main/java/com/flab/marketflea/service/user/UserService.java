@@ -16,9 +16,12 @@ public class UserService {
 
     public void signUp(User user) {
 
+        /*
+         * isIdExist를 통해 아이디 중복체크를 하기 때문에 아래 if문은 생략 가능하다.
+         *
         if (isIdExist(user.getId())) {
             throw new IdExistException();
-        }
+        }*/
 
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
         mapper.add(user);
