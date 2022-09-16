@@ -8,5 +8,6 @@ public class DbException extends RuntimeException {
 
     public DbException() {
         super("데이터베이스 참조과정에서 문제가 발생했습니다.");
+        System.out.println("디비에러");
     }
 }
