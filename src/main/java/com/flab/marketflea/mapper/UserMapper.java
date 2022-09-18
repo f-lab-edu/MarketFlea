@@ -12,4 +12,7 @@ public interface UserMapper {
     public void add(User user) throws DbException;
 
     public boolean isIdExist(String id);
+
+    public User getUserById(String id) throws DbException;
+
 }
