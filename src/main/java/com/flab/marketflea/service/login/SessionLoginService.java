@@ -11,7 +11,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SessionLoginService implements LoginService {
 
-    private static final String LOGIN_MEMBER = "loginMember";
+    public static final String LOGIN_MEMBER = "loginMember";
     private final HttpSession session;
 
     @Override

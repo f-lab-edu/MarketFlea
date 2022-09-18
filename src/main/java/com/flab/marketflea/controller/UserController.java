@@ -3,6 +3,7 @@ package com.flab.marketflea.controller;
 import com.flab.marketflea.dto.user.LoginUser;
 import com.flab.marketflea.dto.user.User;
 import com.flab.marketflea.service.login.LoginService;
+import com.flab.marketflea.service.login.SessionLoginService;
 import com.flab.marketflea.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,8 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.html.Option;
 import javax.validation.Valid;
+import javax.websocket.Session;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginUser loginUser) {
+    public ResponseEntity<Void> login(@RequestBody LoginUser loginUser, HttpServletResponse response) {
         String id = loginUser.getId();
         String password = loginUser.getPassword();
 
@@ -49,8 +54,27 @@ public class UserController {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         } else {
             loginService.login(id);
+            Cookie cookie = new Cookie(SessionLoginService.LOGIN_MEMBER, id);
+            cookie.setMaxAge(60*30);
+            response.addCookie(cookie);
             return new ResponseEntity<Void>(HttpStatus.OK);
         }
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookie = request.getCookies();
+
+        for (Cookie tmp : cookie) {
+            if (tmp.getName().equals(SessionLoginService.LOGIN_MEMBER)) {
+                tmp.setMaxAge(0);
+                response.addCookie(tmp);
+                break;
+            }
+        }
+
+        loginService.logout();
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 }
