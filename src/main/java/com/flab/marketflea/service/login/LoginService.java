@@ -1,9 +1,14 @@
 package com.flab.marketflea.service.login;
 
+import com.flab.marketflea.dto.user.LoginUser;
+import org.springframework.http.ResponseEntity;
+import javax.servlet.http.HttpServletRequest;
+
+
 public interface LoginService {
+    public static final String LOGIN_USER = "loginUser";
 
-    public void login(String id);
+    public ResponseEntity<Void> login(LoginUser loginUser, HttpServletRequest request);
 
-    public void logout();
-
+    public void logout(HttpServletRequest request);
 }
