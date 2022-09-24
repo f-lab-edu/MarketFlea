@@ -1,52 +1,77 @@
 package com.flab.marketflea.dto.user;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import javax.management.relation.Role;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
-
-@Getter
-@Setter
-@Data
-@ToString
 public class User {
 
-    @NotNull
     private String id;
-
-    @NotNull
-    @Size(min = 8, max = 30, message = "비밀번호는 최소 6자리부터 최대 30자리여야합니다.")
     private String password;
-
-    @NotNull
     private String name;
-
-    @NotNull
     private Role role;
-
-    @NotNull
     private String phone;
-
-    @NotNull
     private String email;
-
-    @NotNull
     private String address;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
-//    public User(String id, String password, String name, Role role, String phone, String email, String address) {
-//        this.id = id;
-//        this.password = password;
-//        this.name = name;
-//        this.role = role;
-//        this.phone = phone;
-//        this.email = email;
-//        this.address = address;
-//    }
+    public String getId() { return id; }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() { return email; }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+   private User() {}
+
+    private User(String id, String password, String name, Role role, String phone, String email, String address) {
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.role = role;
+        this.phone = phone;
+        this.email=email;
+        this.address = address;
+    }
+
 }

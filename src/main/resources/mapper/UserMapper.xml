@@ -4,7 +4,7 @@
 
 <mapper namespace="com.flab.marketflea.mapper.UserMapper">
 
-    <insert id="add" parameterType="com.flab.marketflea.dto.user.User">
+    <insert id="signUpMember" parameterType="com.flab.marketflea.dto.user.User">
         INSERT
         INTO user(id, password, name, role, phone, email, address, createdAt, updatedAt)
         VALUES (#{id}, #{password}, #{name}, #{role}, #{phone}, #{email}, #{address}, now(), now())
