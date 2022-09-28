@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static com.flab.marketflea.utility.HttpStatusCode.*;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -32,20 +34,20 @@ public class UserController {
     @GetMapping("/{id}/exist")
     public ResponseEntity<Void> isIdExist(@PathVariable String id) {
         if (userService.isIdExist(id)) {
-            return HttpStatusCode.CONFLICT;
+            return CONFLICT;
         }
 
-        return HttpStatusCode.OK;
+        return OK;
     }
 
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody LoginUser loginUser, HttpServletRequest request) {
-        return loginService.login(loginUser, request);
+        return loginService.login(loginUser);
     }
 
     @GetMapping("/logout")
-    public void logout(HttpServletRequest request) {
-        loginService.logout(request);
+    public void logout() {
+        loginService.logout();
     }
 
 }

@@ -13,29 +13,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+import static com.flab.marketflea.utility.HttpStatusCode.*;
+
 @Service
 @RequiredArgsConstructor
 public class SessionLoginService implements LoginService {
 
     private final UserService userService;
+    private final HttpSession httpSession;
 
     @Override
-    public ResponseEntity<Void> login(LoginUser loginUser, HttpServletRequest request) {
+    public ResponseEntity<Void> login(LoginUser loginUser) {
         Optional<User> user = userService.getUserByIdAndPassword(loginUser.getId(), loginUser.getPassword());
 
-        if (!user.isPresent()) return HttpStatusCode.BAD_REQUEST;
+        if (!user.isPresent()) return BAD_REQUEST;
 
-        HttpSession session = request.getSession();
-        session.setAttribute(LOGIN_USER, loginUser.getId());
-        session.setMaxInactiveInterval(30 * 60);
+        httpSession.setAttribute(LOGIN_USER, loginUser.getId());
+        httpSession.setMaxInactiveInterval(30 * 60);
 
-        return HttpStatusCode.OK;
+        return OK;
     }
 
     @Override
-    public void logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        session.invalidate();
+    public void logout() {
+        httpSession.invalidate();
     }
 
 }

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface LoginService {
     public static final String LOGIN_USER = "loginUser";
 
-    public ResponseEntity<Void> login(LoginUser loginUser, HttpServletRequest request);
+    public ResponseEntity<Void> login(LoginUser loginUser);
 
-    public void logout(HttpServletRequest request);
+    public void logout();
 }
