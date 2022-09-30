@@ -29,14 +29,12 @@ public class SessionLoginService implements LoginService {
         if (!user.isPresent()) return BAD_REQUEST;
 
         httpSession.setAttribute(LOGIN_USER, loginUser.getId());
-        httpSession.setMaxInactiveInterval(30 * 60);
-
         return OK;
     }
 
     @Override
     public void logout() {
-        httpSession.invalidate();
+        httpSession.removeAttribute(LOGIN_USER);
     }
 
 }

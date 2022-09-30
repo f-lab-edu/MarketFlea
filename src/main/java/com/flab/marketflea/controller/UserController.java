@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginUser loginUser, HttpServletRequest request) {
+    public ResponseEntity<Void> login(@RequestBody LoginUser loginUser) {
         return loginService.login(loginUser);
     }
 
@@ -49,6 +49,5 @@ public class UserController {
     public void logout() {
         loginService.logout();
     }
-
 }
 
