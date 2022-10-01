@@ -1,4 +1,4 @@
-package com.flab.marketflea.dto.user;
+package com.flab.marketflea.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

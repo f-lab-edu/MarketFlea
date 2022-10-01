@@ -1,9 +1,11 @@
 package com.flab.marketflea.service.user;
 
-import com.flab.marketflea.dto.user.User;
+import com.flab.marketflea.common.SessionUtils;
+import com.flab.marketflea.domain.User;
+import com.flab.marketflea.exception.DuplicatedUserException;
 import com.flab.marketflea.mapper.UserMapper;
+import com.flab.marketflea.security.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,14 +13,18 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserMapper userMapper;
-    //private final PasswordEncoder passwordEncoder;
+    private final SessionUtils sessionUtils;
+    private final PasswordEncoder passwordEncoder;
 
     public void signUp(User user) {
-        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+        user.setPassword(passwordEncoder.encrypt(user.getPassword()));
         userMapper.signUpMember(user);
     }
 
-    public boolean isIdExist(String id) {
-        return userMapper.isIdExist(id);
+    public void isIdExist(final User user) {
+
+        if (userMapper.isIdExist(user.getId())) {
+            throw new DuplicatedUserException("이미 존재하는 이메일입니다.");
+        }
     }
 }
