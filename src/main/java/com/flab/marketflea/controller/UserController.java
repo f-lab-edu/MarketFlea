@@ -5,26 +5,33 @@ import com.flab.marketflea.domain.User;
 import com.flab.marketflea.service.user.LoginService;
 import com.flab.marketflea.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/users")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
     private final LoginService loginService;
 
-    @PostMapping("/signup")
-    public void signUp(@RequestBody @Valid User user) {
-        userService.isIdExist(user);
+    @PostMapping("")
+    public void signUp(@RequestBody User user) {
         userService.signUp(user);
+    }
+
+    @GetMapping("/{id}/duplicate")
+    public HttpStatus isIdDuplicated(@PathVariable String id) {
+        boolean isIdDuplicated = userService.isIdExist(id);
+        if (isIdDuplicated) {
+            return CONFLICT;
+        } else {
+            return OK;
+        }
     }
 
     @PostMapping("/login")

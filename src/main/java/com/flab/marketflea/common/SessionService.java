@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SessionUtils {
+public class SessionService {
 
     private static final String LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID";
     private final HttpSession httpSession;

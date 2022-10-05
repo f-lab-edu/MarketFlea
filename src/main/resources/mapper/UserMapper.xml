@@ -10,10 +10,8 @@
         VALUES (#{id}, #{password}, #{name}, #{role}, #{phone}, #{email}, #{address}, now(), now())
     </insert>
 
-    <select id="isIdExist" resultType="boolean">
-        SELECT IF(COUNT(*) = 1, 1, 0)
-        FROM User
-        WHERE user_id = #{id}
+    <select id="isIdExist" resultType="_boolean">
+        SELECT EXISTS(SELECT * FROM user WHERE id = #{id})
     </select>
 
     <select id="getUserById" resultType="com.flab.marketflea.domain.User">
