@@ -11,7 +11,13 @@
     </insert>
 
     <select id="isIdExist" resultType="_boolean">
-        SELECT EXISTS(SELECT * FROM user where id = #{id})
+        SELECT EXISTS(SELECT * FROM user WHERE id = #{id})
+    </select>
+
+    <select id="getUserById" resultType="com.flab.marketflea.dto.user.User">
+        SELECT id, password, name, role, phone, email, address, createdAt, updatedAt
+        FROM user
+        WHERE id = #{id}
     </select>
 
 </mapper>
