@@ -14,7 +14,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public void signUp(User user) {
-
         User encryptedUser = User.builder()
                 .id(user.getId())
                 .name(user.getName())

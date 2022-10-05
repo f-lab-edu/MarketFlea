@@ -4,7 +4,9 @@ import lombok.*;
 
 @Getter
 @Builder
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class LoginUser {
 
     private String id;
