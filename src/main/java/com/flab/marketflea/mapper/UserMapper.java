@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
 
-    public void signUpMember(User user);
+    public void signUpUser(User user);
 
     public boolean isIdExist(String id);
 

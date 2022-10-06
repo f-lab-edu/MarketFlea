@@ -30,13 +30,4 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-//    private User(String id, String password, String name, Role role, String phone, String email, String address) {
-//        this.id = id;
-//        this.password = password;
-//        this.name = name;
-//        this.role = role;
-//        this.phone = phone;
-//        this.email=email;
-//        this.address = address;
-//    }
 }

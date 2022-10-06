@@ -24,7 +24,7 @@ public class UserService {
                 .password(passwordEncoder.encrypt(user.getPassword()))
                 .build();
 
-        userMapper.signUpMember(encryptedUser);
+        userMapper.signUpUser(encryptedUser);
     }
 
     public boolean isIdExist(String id) {
