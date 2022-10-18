@@ -1,14 +1,22 @@
 package com.flab.marketflea.mapper;
 
+import com.flab.marketflea.domain.ChangedUser;
+import com.flab.marketflea.domain.LoginUser;
 import com.flab.marketflea.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserMapper {
 
-    public void signUpUser(User user);
+    void signUpUser(User user);
 
-    public boolean isIdExist(String id);
+    boolean isIdExist(String userId);
 
-    public User getUserById(String id);
+    User getUserById(String userId);
+
+    String getPassword(String userId);
+
+    void updateUser(ChangedUser changedUser);
+
+    void updatePassword(LoginUser loginUser);
 }

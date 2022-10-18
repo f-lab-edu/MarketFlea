@@ -9,7 +9,8 @@ import lombok.*;
 
 public class LoginUser {
 
-    private String id;
+
+    private String userId;
 
     private String password;
 

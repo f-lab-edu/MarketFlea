@@ -1,4 +1,4 @@
-package com.flab.marketflea.service.user;
+package com.flab.marketflea.service.loginservice;
 
 
 import com.flab.marketflea.common.SessionService;
@@ -21,13 +21,13 @@ public class SessionLoginService implements LoginService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public String login(String id, String password) {
+    public String login(String userId, String password) {
 
-        User matchMember = userMapper.getUserById(id);
+        User matchMember = userMapper.getUserById(userId);
         if (matchMember == null || !passwordEncoder.matches(password, matchMember.getPassword())) {
             throw new LoginFailedException("사용자가 존재하지 않거나 비밀번호가 틀렸습니다.");
         }
-        sessionService.setLoginMemberId(matchMember.getId());
+        sessionService.setLoginMemberId(matchMember.getUserId());
         return null;
     }
 

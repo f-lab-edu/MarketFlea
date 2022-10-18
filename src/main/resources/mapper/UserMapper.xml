@@ -6,18 +6,45 @@
 
     <insert id="signUpUser" parameterType="com.flab.marketflea.domain.User">
         INSERT
-        INTO user(id, password, name, role, phone, email, address, createdAt, updatedAt)
-        VALUES (#{id}, #{password}, #{name}, #{role}, #{phone}, #{email}, #{address}, now(), now())
+        INTO user(userId, password, name, role, phone, email, address, createdAt, updatedAt)
+        VALUES (#{userId}, #{password}, #{name}, #{role}, #{phone}, #{email}, #{address}, now(), now())
     </insert>
 
-    <select id="isIdExist" resultType="_boolean">
-        SELECT EXISTS(SELECT * FROM user WHERE id = #{id})
+    <select id="isIdExist" resultType="boolean">
+        SELECT EXISTS(SELECT * FROM user WHERE userId = #{userId})
     </select>
 
     <select id="getUserById" resultType="com.flab.marketflea.domain.User">
-        SELECT id, password, name, role, phone, email, address, createdAt, updatedAt
+        SELECT userId, password, name, role, phone, email, address, createdAt, updatedAt
         FROM user
-        WHERE id = #{id}
+        WHERE userId = #{userId}
     </select>
+
+
+    <select id="getPassword" resultType="String">
+        SELECT password
+        FROM user
+        WHERE userId = #{userId}
+    </select>
+
+    <!--<select id="getUser" resultType="com.flab.marketflea.domain.User">-->
+        <!--SELECT userId, password, name, role, phone, email, address, createdAt, updatedAt-->
+        <!--FROM user-->
+        <!--WHERE userId = #{userId} AND password = #{password}-->
+    <!--</select>-->
+
+
+    <update id="updateUser" parameterType="com.flab.marketflea.domain.UpdateUser">
+        UPDATE user
+        SET name = #{name}, phone = #{phone}, address = #{address}, email = #{email}
+        WHERE userId = #{userId}
+    </update>
+
+
+    <update id="updatePassword" parameterType="com.flab.marketflea.domain.UpdatePasswordUser">
+        UPDATE user
+        SET password = #{password} AND updateAt() = NOW()
+        WHERE userId = #{userId}
+    </update>
 
 </mapper>

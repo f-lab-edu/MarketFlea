@@ -12,8 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class User {
-
+public class ChangedUser {
     private String userId;
 
     private String password;
@@ -33,4 +32,3 @@ public class User {
     private LocalDateTime updatedAt;
 
 }
-
