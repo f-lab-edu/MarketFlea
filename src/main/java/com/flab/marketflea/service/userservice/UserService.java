@@ -1,6 +1,6 @@
 package com.flab.marketflea.service.userservice;
 
-import com.flab.marketflea.domain.*;
+import com.flab.marketflea.model.*;
 import com.flab.marketflea.exception.InValidValueException;
 import com.flab.marketflea.mapper.UserMapper;
 import com.flab.marketflea.security.PasswordEncoder;
@@ -34,21 +34,8 @@ public class UserService {
         return userMapper.isIdExist(userId);
     }
 
-    public User getLoginUser(LoginUser loginUser) {
-        String storedPassword = userMapper.getPassword(loginUser.getUserId());
 
-        boolean isValidPassword = passwordEncoder.matches(loginUser.getPassword(), storedPassword);
-
-        if (storedPassword == null || !isValidPassword) {
-            return null;
-        }
-        User user = userMapper.getUserById(loginUser.getUserId());
-        return user;
-
-    }
-
-
-    @Transactional(rollbackFor = RuntimeException.class)
+    @Transactional(rollbackFor = Exception.class)
     public void update(UpdateUser updateUser) {
 
         ChangedUser changedUser = ChangedUser.builder()
@@ -64,6 +51,7 @@ public class UserService {
 
     }
 
+
     @Transactional
     public void updatePassword(UpdatePasswordUser updatePasswordUser)
             throws InValidValueException {
@@ -72,20 +60,16 @@ public class UserService {
         String currentUserPassword = updatePasswordUser.getNewPassword();
 
         boolean isValidPassword = passwordEncoder.matches(updatePasswordUser.getExistPassword(), currentUserPassword);
-
-        if (!isValidPassword ||
-                updatePasswordUser.getExistPassword().equals(updatePasswordUser.getNewPassword()) ||
-                !updatePasswordUser.getNewPassword().equals(updatePasswordUser.getCheckNewPassword())) {
-            throw new InValidValueException("올바르지 않은 값입니다. 다시 입력해주세요.");
+        if (isValidPassword) {
+            throw new InValidValueException("이전 비밀번호와 같은 값입니다. 다시 입력해주세요.");
         }
 
         String encryptedPassword = passwordEncoder.encrypt(updatePasswordUser.getNewPassword());
         LoginUser loginUser = new LoginUser(currentUserId, encryptedPassword);
 
-        userMapper.updatePassword(LoginUser.builder().build());
+        userMapper.updatePassword(loginUser.builder().build());
+
     }
-
-
 }
 
 

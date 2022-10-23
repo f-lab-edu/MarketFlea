@@ -1,12 +1,13 @@
 package com.flab.marketflea.controller;
 
-import com.flab.marketflea.domain.LoginUser;
-import com.flab.marketflea.domain.UpdatePasswordUser;
-import com.flab.marketflea.domain.UpdateUser;
-import com.flab.marketflea.domain.User;
+import com.flab.marketflea.model.LoginUser;
+import com.flab.marketflea.model.UpdatePasswordUser;
+import com.flab.marketflea.model.UpdateUser;
+import com.flab.marketflea.model.User;
 import com.flab.marketflea.service.loginservice.LoginService;
 import com.flab.marketflea.service.userservice.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +23,10 @@ public class UserController {
     private final UserService userService;
     private final LoginService loginService;
 
+    @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<Void> signUp(@RequestBody User user) {
+    public void signUp(@RequestBody User user) {
         userService.signUp(user);
-        return CREATED;
     }
 
     @GetMapping("/{id}/duplicate")
@@ -38,34 +39,27 @@ public class UserController {
         }
     }
 
+    @ResponseStatus(value = HttpStatus.OK)
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginUser loginUser) {
-
-        User user = userService.getLoginUser(loginUser);
-
-        if(user == null){
-            return UNAUTHORIZED;
-        }
+    public void login(@RequestBody LoginUser loginUser) {
         loginService.login(loginUser.getUserId(), loginUser.getPassword());
-        return OK;
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout() {
+    public void logout() {
         loginService.logout();
-        return OK;
     }
 
+    @ResponseStatus(value = HttpStatus.OK)
     @PutMapping("/update")
-    public ResponseEntity<Void> update(@RequestBody UpdateUser updateUser) {
+    public void update(@RequestBody UpdateUser updateUser) {
         userService.update(updateUser);
-        return OK;
     }
 
+    @ResponseStatus(value = HttpStatus.OK)
     @PutMapping("/update/password")
-    public ResponseEntity<Void> updatePassword(UpdatePasswordUser updatePasswordUser) {
+    public void updatePassword(@RequestBody UpdatePasswordUser updatePasswordUser) {
         userService.updatePassword(updatePasswordUser);
-        return OK;
     }
 
 }

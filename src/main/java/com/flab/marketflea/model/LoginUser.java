@@ -1,4 +1,4 @@
-package com.flab.marketflea.domain;
+package com.flab.marketflea.model;
 
 import lombok.*;
 
@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 
 public class LoginUser {
-
 
     private String userId;
 

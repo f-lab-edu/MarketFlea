@@ -1,8 +1,8 @@
 package com.flab.marketflea.mapper;
 
-import com.flab.marketflea.domain.ChangedUser;
-import com.flab.marketflea.domain.LoginUser;
-import com.flab.marketflea.domain.User;
+import com.flab.marketflea.model.ChangedUser;
+import com.flab.marketflea.model.LoginUser;
+import com.flab.marketflea.model.User;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

@@ -2,7 +2,7 @@ package com.flab.marketflea.service.loginservice;
 
 
 import com.flab.marketflea.common.SessionService;
-import com.flab.marketflea.domain.User;
+import com.flab.marketflea.model.User;
 import com.flab.marketflea.exception.LoginFailedException;
 import com.flab.marketflea.mapper.UserMapper;
 import com.flab.marketflea.security.PasswordEncoder;
