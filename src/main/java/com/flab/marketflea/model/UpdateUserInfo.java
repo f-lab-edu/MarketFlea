@@ -11,24 +11,17 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class ChangedUser {
+public class UpdateUserInfo {
 
     private String userId;
 
-    private String password;
-
     private String name;
-
-    private Role role;
 
     private String phone;
 
-    private String email;
-
     private String address;
 
-    private LocalDateTime createdAt;
+    private String email;
 
     private LocalDateTime updatedAt;
 

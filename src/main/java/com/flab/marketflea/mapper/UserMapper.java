@@ -1,7 +1,7 @@
 package com.flab.marketflea.mapper;
 
-import com.flab.marketflea.model.ChangedUser;
-import com.flab.marketflea.model.LoginUser;
+import com.flab.marketflea.model.UpdatePasswordUser;
+import com.flab.marketflea.model.UpdateUserInfo;
 import com.flab.marketflea.model.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,9 +14,7 @@ public interface UserMapper {
 
     User getUserById(String userId);
 
-    String getPassword(String userId);
+    void updateUser(UpdateUserInfo updateUserInfo);
 
-    void updateUser(ChangedUser changedUser);
-
-    void updatePassword(LoginUser loginUser);
+    void updatePassword(UpdatePasswordUser updatePasswordUser);
 }

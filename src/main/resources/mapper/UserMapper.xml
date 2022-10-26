@@ -20,12 +20,6 @@
         WHERE userId = #{userId}
     </select>
 
-    <select id="getPassword" resultType="String">
-        SELECT password
-        FROM user
-        WHERE userId = #{userId}
-    </select>
-
     <update id="updateUser" parameterType="com.flab.marketflea.model.UpdateUser">
         UPDATE user
         SET name = #{name}, phone = #{phone}, address = #{address}, email = #{email}
@@ -34,7 +28,7 @@
 
     <update id="updatePassword" parameterType="com.flab.marketflea.model.UpdatePasswordUser">
         UPDATE user
-        SET password = #{password}
+        SET password = #{newPassword}
         WHERE userId = #{userId}
     </update>
 

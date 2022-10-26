@@ -51,13 +51,13 @@ public class UserController {
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @PutMapping("/update")
+    @PutMapping
     public void update(@RequestBody UpdateUser updateUser) {
         userService.update(updateUser);
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @PutMapping("/update/password")
+    @PutMapping("/password")
     public void updatePassword(@RequestBody UpdatePasswordUser updatePasswordUser) {
         userService.updatePassword(updatePasswordUser);
     }

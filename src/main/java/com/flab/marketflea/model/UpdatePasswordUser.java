@@ -10,15 +10,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class UpdatePasswordUser {
 
     private String userId;
 
-    private String existPassword;
-
     private String newPassword;
-
-    private String checkNewPassword;
 
 }

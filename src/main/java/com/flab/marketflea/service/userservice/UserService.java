@@ -1,10 +1,11 @@
 package com.flab.marketflea.service.userservice;
 
-import com.flab.marketflea.model.*;
 import com.flab.marketflea.exception.InValidValueException;
 import com.flab.marketflea.mapper.UserMapper;
+import com.flab.marketflea.model.*;
 import com.flab.marketflea.security.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +39,7 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public void update(UpdateUser updateUser) {
 
-        ChangedUser changedUser = ChangedUser.builder()
+        UpdateUserInfo changedUser = UpdateUserInfo.builder()
                 .userId(updateUser.getUserId())
                 .name(updateUser.getName())
                 .phone(updateUser.getPhone())
@@ -56,18 +57,12 @@ public class UserService {
     public void updatePassword(UpdatePasswordUser updatePasswordUser)
             throws InValidValueException {
 
-        String currentUserId = updatePasswordUser.getUserId();
-        String currentUserPassword = updatePasswordUser.getNewPassword();
+        UpdatePasswordUser encodeUser = UpdatePasswordUser.builder()
+                .userId(updatePasswordUser.getUserId())
+                .newPassword(passwordEncoder.encrypt(updatePasswordUser.getNewPassword()))
+                .build();
 
-        boolean isValidPassword = passwordEncoder.matches(updatePasswordUser.getExistPassword(), currentUserPassword);
-        if (isValidPassword) {
-            throw new InValidValueException("이전 비밀번호와 같은 값입니다. 다시 입력해주세요.");
-        }
-
-        String encryptedPassword = passwordEncoder.encrypt(updatePasswordUser.getNewPassword());
-        LoginUser loginUser = new LoginUser(currentUserId, encryptedPassword);
-
-        userMapper.updatePassword(loginUser.builder().build());
+        userMapper.updatePassword(encodeUser);
 
     }
 }
