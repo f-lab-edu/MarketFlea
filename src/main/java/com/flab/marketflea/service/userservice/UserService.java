@@ -1,8 +1,8 @@
 package com.flab.marketflea.service.userservice;
 
-import com.flab.marketflea.model.*;
 import com.flab.marketflea.exception.InValidValueException;
 import com.flab.marketflea.mapper.UserMapper;
+import com.flab.marketflea.model.user.*;
 import com.flab.marketflea.security.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -69,6 +69,16 @@ public class UserService {
 
         userMapper.updatePassword(loginUser.builder().build());
 
+    }
+
+    public void deleteUser(LoginUser loginUser) throws InValidValueException {
+
+        LoginUser encodeUser = LoginUser.builder()
+                .userId(loginUser.getUserId())
+                .password(passwordEncoder.encrypt(loginUser.getPassword()))
+                .build();
+
+        userMapper.deleteUser(encodeUser);
     }
 }
 

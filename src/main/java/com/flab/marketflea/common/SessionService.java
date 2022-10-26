@@ -28,4 +28,20 @@ public class SessionService {
         httpSession.removeAttribute(LOGIN_MEMBER_ID);
         log.info("세션 LOGIN_MEMBER_ID 삭제 후 세션아이디 null 정상반영 여부:{}", (getLoginMemberId() == null));
     }
+
+    public boolean isLoginUser() {
+
+        try {
+            String session = String.valueOf(httpSession.getAttribute(LOGIN_MEMBER_ID));
+            Long userLogin = Long.valueOf(session);
+
+            if (userLogin != null) {
+                return true;
+            }
+            return false;
+        } catch (NumberFormatException e) {
+            return true;
+
+        }
+    }
 }

@@ -1,9 +1,10 @@
 package com.flab.marketflea.controller;
 
-import com.flab.marketflea.model.LoginUser;
-import com.flab.marketflea.model.UpdatePasswordUser;
-import com.flab.marketflea.model.UpdateUser;
-import com.flab.marketflea.model.User;
+import com.flab.marketflea.common.SessionService;
+import com.flab.marketflea.model.user.LoginUser;
+import com.flab.marketflea.model.user.UpdatePasswordUser;
+import com.flab.marketflea.model.user.UpdateUser;
+import com.flab.marketflea.model.user.User;
 import com.flab.marketflea.service.loginservice.LoginService;
 import com.flab.marketflea.service.userservice.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class UserController {
 
     private final UserService userService;
     private final LoginService loginService;
+    private final SessionService sessionService;
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
@@ -51,15 +53,27 @@ public class UserController {
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @PutMapping("/update")
+    @PutMapping
     public void update(@RequestBody UpdateUser updateUser) {
         userService.update(updateUser);
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @PutMapping("/update/password")
+    @PutMapping("/password")
     public void updatePassword(@RequestBody UpdatePasswordUser updatePasswordUser) {
         userService.updatePassword(updatePasswordUser);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUser(@RequestBody LoginUser loginUser) {
+
+        boolean isLoginUser = sessionService.isLoginUser();
+        if(!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        userService.deleteUser(loginUser);
+
+        return OK;
     }
 
 }
