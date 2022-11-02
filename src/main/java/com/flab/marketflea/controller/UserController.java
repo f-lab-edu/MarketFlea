@@ -1,5 +1,6 @@
 package com.flab.marketflea.controller;
 
+import com.flab.marketflea.common.SessionService;
 import com.flab.marketflea.model.LoginUser;
 import com.flab.marketflea.model.UpdatePasswordUser;
 import com.flab.marketflea.model.UpdateUser;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 import static com.flab.marketflea.common.ResponseEntityConstants.*;
 
@@ -22,6 +25,7 @@ public class UserController {
 
     private final UserService userService;
     private final LoginService loginService;
+    private final SessionService sessionService;
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
@@ -50,16 +54,29 @@ public class UserController {
         loginService.logout();
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
+
     @PutMapping
-    public void update(@RequestBody UpdateUser updateUser) {
+    public ResponseEntity<Void> update(@RequestBody @Valid UpdateUser updateUser) {
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
+        }
         userService.update(updateUser);
+
+        return OK;
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
+
     @PutMapping("/password")
-    public void updatePassword(@RequestBody UpdatePasswordUser updatePasswordUser) {
+    public ResponseEntity<Void> updatePassword(@RequestBody @Valid UpdatePasswordUser updatePasswordUser) {
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
+        }
         userService.updatePassword(updatePasswordUser);
+
+        return OK;
     }
+
 
 }

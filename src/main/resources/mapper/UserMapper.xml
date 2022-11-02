@@ -28,7 +28,7 @@
 
     <update id="updatePassword" parameterType="com.flab.marketflea.model.UpdatePasswordUser">
         UPDATE user
-        SET password = #{newPassword}
+        SET password = #{password}
         WHERE userId = #{userId}
     </update>
 

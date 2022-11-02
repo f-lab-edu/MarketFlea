@@ -5,7 +5,6 @@ import com.flab.marketflea.mapper.UserMapper;
 import com.flab.marketflea.model.*;
 import com.flab.marketflea.security.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,7 +58,7 @@ public class UserService {
 
         UpdatePasswordUser encodeUser = UpdatePasswordUser.builder()
                 .userId(updatePasswordUser.getUserId())
-                .newPassword(passwordEncoder.encrypt(updatePasswordUser.getNewPassword()))
+                .password(passwordEncoder.encrypt(updatePasswordUser.getPassword()))
                 .build();
 
         userMapper.updatePassword(encodeUser);
