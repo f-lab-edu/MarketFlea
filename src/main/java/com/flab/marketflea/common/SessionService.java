@@ -31,17 +31,10 @@ public class SessionService {
 
     public boolean isLoginUser() {
 
-        try {
-            String session = String.valueOf(httpSession.getAttribute(LOGIN_MEMBER_ID));
-            Long userLogin = Long.valueOf(session);
-
-            if (userLogin != null) {
-                return true;
-            }
-            return false;
-        } catch (NumberFormatException e) {
+        String session = String.valueOf(httpSession.getAttribute(LOGIN_MEMBER_ID));
+        if (session != null) {
             return true;
-
         }
+        return false;
     }
 }

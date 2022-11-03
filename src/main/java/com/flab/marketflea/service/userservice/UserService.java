@@ -78,7 +78,15 @@ public class UserService {
                 .password(passwordEncoder.encrypt(loginUser.getPassword()))
                 .build();
 
+        boolean isValidPassword = passwordEncoder.matches(loginUser.getPassword(),userMapper.getUserById(loginUser.getUserId()).getPassword());
+
+        if (!isValidPassword) {
+            throw new InValidValueException("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+        }
+
         userMapper.deleteUser(encodeUser);
+
+
     }
 }
 

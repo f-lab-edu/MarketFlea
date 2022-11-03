@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static com.flab.marketflea.common.ResponseEntityConstants.*;
 
 
@@ -54,13 +56,13 @@ public class UserController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @PutMapping
-    public void update(@RequestBody UpdateUser updateUser) {
+    public void update(@RequestBody @Valid UpdateUser updateUser) {
         userService.update(updateUser);
     }
 
     @ResponseStatus(value = HttpStatus.OK)
     @PutMapping("/password")
-    public void updatePassword(@RequestBody UpdatePasswordUser updatePasswordUser) {
+    public void updatePassword(@RequestBody @Valid UpdatePasswordUser updatePasswordUser) {
         userService.updatePassword(updatePasswordUser);
     }
 
@@ -75,5 +77,6 @@ public class UserController {
 
         return OK;
     }
+
 
 }
