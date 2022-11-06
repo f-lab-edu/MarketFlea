@@ -26,6 +26,24 @@
         WHERE userId = #{userId}
     </update>
 
+    <update id="updateName" parameterType="com.flab.marketflea.model.UpdateUser">
+        UPDATE user
+        SET name = #{name}
+        WHERE userId = #{userId}
+    </update>
+
+    <update id="updateAddress" parameterType="com.flab.marketflea.model.UpdateUser">
+        UPDATE user
+        SET address = #{address}
+        WHERE userId = #{userId}
+    </update>
+
+    <update id="updatePhone" parameterType="com.flab.marketflea.model.UpdateUser">
+        UPDATE user
+        SET phone = #{phone}
+        WHERE userId = #{userId}
+    </update>
+
     <update id="updatePassword" parameterType="com.flab.marketflea.model.UpdatePasswordUser">
         UPDATE user
         SET password = #{password}

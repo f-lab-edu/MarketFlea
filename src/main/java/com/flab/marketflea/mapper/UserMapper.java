@@ -16,5 +16,11 @@ public interface UserMapper {
 
     void updateUser(UpdateUserInfo updateUserInfo);
 
+    void updateName(UpdateUserInfo updateUserInfo);
+
+    void updateAddress(UpdateUserInfo updateUserInfo);
+
+    void updatePhone(UpdateUserInfo updateUserInfo);
+
     void updatePassword(UpdatePasswordUser updatePasswordUser);
 }

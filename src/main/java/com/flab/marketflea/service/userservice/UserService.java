@@ -51,6 +51,40 @@ public class UserService {
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void updateName(UpdateUser updateUser) {
+
+        UpdateUserInfo changedUser = UpdateUserInfo.builder()
+                .userId(updateUser.getUserId())
+                .name(updateUser.getName())
+                .build();
+
+        userMapper.updateName(changedUser);
+
+    }
+    @Transactional(rollbackFor = Exception.class)
+    public void updateAddress(UpdateUser updateUser) {
+
+        UpdateUserInfo changedUser = UpdateUserInfo.builder()
+                .userId(updateUser.getUserId())
+                .address(updateUser.getAddress())
+                .build();
+
+        userMapper.updateAddress(changedUser);
+
+    }
+    @Transactional(rollbackFor = Exception.class)
+    public void updatePhone(UpdateUser updateUser) {
+
+        UpdateUserInfo changedUser = UpdateUserInfo.builder()
+                .userId(updateUser.getUserId())
+                .phone(updateUser.getPhone())
+                .build();
+
+        userMapper.updatePhone(changedUser);
+
+    }
+
 
     @Transactional
     public void updatePassword(UpdatePasswordUser updatePasswordUser)

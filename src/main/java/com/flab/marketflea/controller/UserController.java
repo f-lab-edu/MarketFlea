@@ -66,11 +66,46 @@ public class UserController {
         return OK;
     }
 
+    @PatchMapping("/name")
+    public ResponseEntity<Void> updateName(@RequestBody UpdateUser updateUser) {
+        boolean isLoginUser = sessionService.isLoginUser();
 
-    @PutMapping("/password")
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        userService.updateName(updateUser);
+
+        return OK;
+    }
+    @PatchMapping("/address")
+    public ResponseEntity<Void> updateAddress(@RequestBody UpdateUser updateUser) {
+        boolean isLoginUser = sessionService.isLoginUser();
+
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        userService.updateAddress(updateUser);
+        return OK;
+    }
+
+    @PatchMapping("/phone")
+    public ResponseEntity<Void> updatePhone(@RequestBody UpdateUser updateUser) {
+        boolean isLoginUser = sessionService.isLoginUser();
+
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        userService.updatePhone(updateUser);
+
+        return OK;
+    }
+
+
+
+    @PatchMapping("/password")
     public ResponseEntity<Void> updatePassword(@RequestBody @Valid UpdatePasswordUser updatePasswordUser) {
         boolean isLoginUser = sessionService.isLoginUser();
-        if (!isLoginUser) {
+        if (!isLoginUser ) {
             return UNAUTHORIZED;
         }
         userService.updatePassword(updatePasswordUser);
