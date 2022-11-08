@@ -35,7 +35,7 @@ public class UserService {
     }
 
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void update(UpdateUser updateUser) {
 
         UpdateUserInfo changedUser = UpdateUserInfo.builder()
@@ -51,7 +51,7 @@ public class UserService {
 
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void updateName(UpdateUser updateUser) {
 
         UpdateUserInfo changedUser = UpdateUserInfo.builder()
@@ -62,7 +62,7 @@ public class UserService {
         userMapper.updateName(changedUser);
 
     }
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void updateAddress(UpdateUser updateUser) {
 
         UpdateUserInfo changedUser = UpdateUserInfo.builder()
@@ -73,7 +73,7 @@ public class UserService {
         userMapper.updateAddress(changedUser);
 
     }
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void updatePhone(UpdateUser updateUser) {
 
         UpdateUserInfo changedUser = UpdateUserInfo.builder()
