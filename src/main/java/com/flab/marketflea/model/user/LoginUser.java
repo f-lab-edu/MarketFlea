@@ -1,4 +1,4 @@
-package com.flab.marketflea.domain;
+package com.flab.marketflea.model.user;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import lombok.*;
 
 public class LoginUser {
 
-    private String id;
+    private String userId;
 
     private String password;
 

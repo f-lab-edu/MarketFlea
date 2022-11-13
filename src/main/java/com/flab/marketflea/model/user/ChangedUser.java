@@ -1,4 +1,4 @@
-package com.flab.marketflea.domain;
+package com.flab.marketflea.model.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,8 +12,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class User {
-    private String id;
+public class ChangedUser {
+
+    private String userId;
 
     private String password;
 
@@ -28,6 +29,7 @@ public class User {
     private String address;
 
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
 
 }
