@@ -54,17 +54,30 @@ public class UserController {
         loginService.logout();
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
+
     @PutMapping
-    public void update(@RequestBody @Valid UpdateUser updateUser) {
+    public ResponseEntity<Void> update(@RequestBody @Valid UpdateUser updateUser) {
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (isLoginUser != true) {
+            return UNAUTHORIZED;
+        }
         userService.update(updateUser);
+
+        return OK;
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
-    @PutMapping("/password")
-    public void updatePassword(@RequestBody @Valid UpdatePasswordUser updatePasswordUser) {
+
+
+    @PatchMapping("/password")
+    public ResponseEntity<Void> updatePassword(@RequestBody @Valid UpdatePasswordUser updatePasswordUser) {
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (isLoginUser != true) {
+            return UNAUTHORIZED;
+        }
         userService.updatePassword(updatePasswordUser);
+        return OK;
     }
+
 
     @DeleteMapping
     public ResponseEntity<Void> deleteUser(@RequestBody LoginUser loginUser) {

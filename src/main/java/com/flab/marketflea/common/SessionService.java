@@ -1,5 +1,6 @@
 package com.flab.marketflea.common;
 
+import com.flab.marketflea.exception.InValidValueException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -31,10 +32,11 @@ public class SessionService {
 
     public boolean isLoginUser() {
 
-        String session = String.valueOf(httpSession.getAttribute(LOGIN_MEMBER_ID));
-        if (session != null) {
-            return true;
+        try {
+            final String loginId = httpSession.getAttribute(LOGIN_MEMBER_ID).toString();
+            return loginId != null;
+        } catch (NullPointerException e) {
+            throw new InValidValueException("존재하지 않은 사용자입니다.");
         }
-        return false;
     }
 }

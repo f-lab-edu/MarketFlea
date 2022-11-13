@@ -35,10 +35,10 @@ public class UserService {
     }
 
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void update(UpdateUser updateUser) {
 
-        ChangedUser changedUser = ChangedUser.builder()
+        UpdateUserInfo changedUser = UpdateUserInfo.builder()
                 .userId(updateUser.getUserId())
                 .name(updateUser.getName())
                 .phone(updateUser.getPhone())
@@ -56,18 +56,12 @@ public class UserService {
     public void updatePassword(UpdatePasswordUser updatePasswordUser)
             throws InValidValueException {
 
-        String currentUserId = updatePasswordUser.getUserId();
-        String currentUserPassword = updatePasswordUser.getNewPassword();
+        UpdatePasswordUser encodeUser = UpdatePasswordUser.builder()
+                .userId(updatePasswordUser.getUserId())
+                .password(passwordEncoder.encrypt(updatePasswordUser.getPassword()))
+                .build();
 
-        boolean isValidPassword = passwordEncoder.matches(updatePasswordUser.getExistPassword(), currentUserPassword);
-        if (isValidPassword) {
-            throw new InValidValueException("이전 비밀번호와 같은 값입니다. 다시 입력해주세요.");
-        }
-
-        String encryptedPassword = passwordEncoder.encrypt(updatePasswordUser.getNewPassword());
-        LoginUser loginUser = new LoginUser(currentUserId, encryptedPassword);
-
-        userMapper.updatePassword(loginUser.builder().build());
+        userMapper.updatePassword(encodeUser);
 
     }
 
