@@ -58,7 +58,7 @@ public class UserController {
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody @Valid UpdateUser updateUser) {
         boolean isLoginUser = sessionService.isLoginUser();
-        if (isLoginUser != true) {
+        if (!isLoginUser) {
             return UNAUTHORIZED;
         }
         userService.update(updateUser);
@@ -71,7 +71,7 @@ public class UserController {
     @PatchMapping("/password")
     public ResponseEntity<Void> updatePassword(@RequestBody @Valid UpdatePasswordUser updatePasswordUser) {
         boolean isLoginUser = sessionService.isLoginUser();
-        if (isLoginUser != true) {
+        if (!isLoginUser) {
             return UNAUTHORIZED;
         }
         userService.updatePassword(updatePasswordUser);
@@ -87,7 +87,6 @@ public class UserController {
             return UNAUTHORIZED;
         }
         userService.deleteUser(loginUser);
-
         return OK;
     }
 
