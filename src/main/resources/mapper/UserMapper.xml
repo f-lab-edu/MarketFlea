@@ -4,20 +4,38 @@
 
 <mapper namespace="com.flab.marketflea.mapper.UserMapper">
 
-    <insert id="signUpUser" parameterType="com.flab.marketflea.domain.User">
+    <insert id="signUpUser" parameterType="com.flab.marketflea.model.user.User">
         INSERT
-        INTO user(id, password, name, role, phone, email, address, createdAt, updatedAt)
-        VALUES (#{id}, #{password}, #{name}, #{role}, #{phone}, #{email}, #{address}, now(), now())
+        INTO user(userId, password, name, role, phone, email, address, createdAt, updatedAt)
+        VALUES (#{userId}, #{password}, #{name}, #{role}, #{phone}, #{email}, #{address}, now(), now())
     </insert>
 
-    <select id="isIdExist" resultType="_boolean">
-        SELECT EXISTS(SELECT * FROM user WHERE id = #{id})
+    <select id="isIdExist" resultType="boolean">
+        SELECT EXISTS(SELECT * FROM user WHERE userId = #{userId})
     </select>
 
-    <select id="getUserById" resultType="com.flab.marketflea.domain.User">
-        SELECT id, password, name, role, phone, email, address, createdAt, updatedAt
+    <select id="getUserById" resultType="com.flab.marketflea.model.user.User">
+        SELECT userId, password, name, role, phone, email, address, createdAt, updatedAt
         FROM user
-        WHERE id = #{id}
+        WHERE userId = #{userId}
     </select>
+
+    <update id="updateUser" parameterType="com.flab.marketflea.model.user.UpdateUser">
+        UPDATE user
+        SET name = #{name}, phone = #{phone}, address = #{address}, email = #{email}
+        WHERE userId = #{userId}
+    </update>
+
+    <update id="updatePassword" parameterType="com.flab.marketflea.model.user.UpdatePasswordUser">
+        UPDATE user
+        SET password = #{password}
+        WHERE userId = #{userId}
+    </update>
+
+    <delete id="deleteUser" parameterType="com.flab.marketflea.model.user.LoginUser">
+        DELETE FROM user
+        WHERE userId = #{userId} AND password = #{password}
+    </delete>
+
 
 </mapper>
