@@ -2,7 +2,7 @@ package com.flab.marketflea.service.userservice;
 
 import com.flab.marketflea.exception.InValidValueException;
 import com.flab.marketflea.mapper.UserMapper;
-import com.flab.marketflea.model.*;
+import com.flab.marketflea.model.user.*;
 import com.flab.marketflea.security.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,40 +51,6 @@ public class UserService {
 
     }
 
-    @Transactional
-    public void updateName(UpdateUser updateUser) {
-
-        UpdateUserInfo changedUser = UpdateUserInfo.builder()
-                .userId(updateUser.getUserId())
-                .name(updateUser.getName())
-                .build();
-
-        userMapper.updateName(changedUser);
-
-    }
-    @Transactional
-    public void updateAddress(UpdateUser updateUser) {
-
-        UpdateUserInfo changedUser = UpdateUserInfo.builder()
-                .userId(updateUser.getUserId())
-                .address(updateUser.getAddress())
-                .build();
-
-        userMapper.updateAddress(changedUser);
-
-    }
-    @Transactional
-    public void updatePhone(UpdateUser updateUser) {
-
-        UpdateUserInfo changedUser = UpdateUserInfo.builder()
-                .userId(updateUser.getUserId())
-                .phone(updateUser.getPhone())
-                .build();
-
-        userMapper.updatePhone(changedUser);
-
-    }
-
 
     @Transactional
     public void updatePassword(UpdatePasswordUser updatePasswordUser)
@@ -94,8 +60,25 @@ public class UserService {
                 .userId(updatePasswordUser.getUserId())
                 .password(passwordEncoder.encrypt(updatePasswordUser.getPassword()))
                 .build();
+            userMapper.updatePassword(encodeUser);
 
-        userMapper.updatePassword(encodeUser);
+    }
+
+    public void deleteUser(LoginUser loginUser) throws InValidValueException {
+
+        LoginUser encodeUser = LoginUser.builder()
+                .userId(loginUser.getUserId())
+                .password(passwordEncoder.encrypt(loginUser.getPassword()))
+                .build();
+
+        boolean isValidPassword = passwordEncoder.matches(loginUser.getPassword(), userMapper.getUserById(loginUser.getUserId()).getPassword());
+
+        if (!isValidPassword) {
+            throw new InValidValueException("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+        }
+
+        userMapper.deleteUser(encodeUser);
+
 
     }
 }

@@ -4,7 +4,7 @@
 
 <mapper namespace="com.flab.marketflea.mapper.UserMapper">
 
-    <insert id="signUpUser" parameterType="com.flab.marketflea.model.User">
+    <insert id="signUpUser" parameterType="com.flab.marketflea.model.user.User">
         INSERT
         INTO user(userId, password, name, role, phone, email, address, createdAt, updatedAt)
         VALUES (#{userId}, #{password}, #{name}, #{role}, #{phone}, #{email}, #{address}, now(), now())
@@ -14,40 +14,28 @@
         SELECT EXISTS(SELECT * FROM user WHERE userId = #{userId})
     </select>
 
-    <select id="getUserById" resultType="com.flab.marketflea.model.User">
+    <select id="getUserById" resultType="com.flab.marketflea.model.user.User">
         SELECT userId, password, name, role, phone, email, address, createdAt, updatedAt
         FROM user
         WHERE userId = #{userId}
     </select>
 
-    <update id="updateUser" parameterType="com.flab.marketflea.model.UpdateUser">
+    <update id="updateUser" parameterType="com.flab.marketflea.model.user.UpdateUser">
         UPDATE user
         SET name = #{name}, phone = #{phone}, address = #{address}, email = #{email}
         WHERE userId = #{userId}
     </update>
 
-    <update id="updateName" parameterType="com.flab.marketflea.model.UpdateUser">
-        UPDATE user
-        SET name = #{name}
-        WHERE userId = #{userId}
-    </update>
-
-    <update id="updateAddress" parameterType="com.flab.marketflea.model.UpdateUser">
-        UPDATE user
-        SET address = #{address}
-        WHERE userId = #{userId}
-    </update>
-
-    <update id="updatePhone" parameterType="com.flab.marketflea.model.UpdateUser">
-        UPDATE user
-        SET phone = #{phone}
-        WHERE userId = #{userId}
-    </update>
-
-    <update id="updatePassword" parameterType="com.flab.marketflea.model.UpdatePasswordUser">
+    <update id="updatePassword" parameterType="com.flab.marketflea.model.user.UpdatePasswordUser">
         UPDATE user
         SET password = #{password}
         WHERE userId = #{userId}
     </update>
+
+    <delete id="deleteUser" parameterType="com.flab.marketflea.model.user.LoginUser">
+        DELETE FROM user
+        WHERE userId = #{userId} AND password = #{password}
+    </delete>
+
 
 </mapper>

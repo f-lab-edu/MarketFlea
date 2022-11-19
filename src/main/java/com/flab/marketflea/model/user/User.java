@@ -1,4 +1,4 @@
-package com.flab.marketflea.model;
+package com.flab.marketflea.model.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,18 +11,26 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateUserInfo {
+
+public class User {
 
     private String userId;
 
+    private String password;
+
     private String name;
+
+    private Role role;
 
     private String phone;
 
+    private String email;
+
     private String address;
 
-    private String email;
+    private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
 }
+

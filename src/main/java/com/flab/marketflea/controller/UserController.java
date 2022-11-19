@@ -1,10 +1,10 @@
 package com.flab.marketflea.controller;
 
 import com.flab.marketflea.common.SessionService;
-import com.flab.marketflea.model.LoginUser;
-import com.flab.marketflea.model.UpdatePasswordUser;
-import com.flab.marketflea.model.UpdateUser;
-import com.flab.marketflea.model.User;
+import com.flab.marketflea.model.user.LoginUser;
+import com.flab.marketflea.model.user.UpdatePasswordUser;
+import com.flab.marketflea.model.user.UpdateUser;
+import com.flab.marketflea.model.user.User;
 import com.flab.marketflea.service.loginservice.LoginService;
 import com.flab.marketflea.service.userservice.UserService;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +58,7 @@ public class UserController {
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody @Valid UpdateUser updateUser) {
         boolean isLoginUser = sessionService.isLoginUser();
-        if (isLoginUser != true) {
+        if (!isLoginUser) {
             return UNAUTHORIZED;
         }
         userService.update(updateUser);
@@ -71,10 +71,22 @@ public class UserController {
     @PatchMapping("/password")
     public ResponseEntity<Void> updatePassword(@RequestBody @Valid UpdatePasswordUser updatePasswordUser) {
         boolean isLoginUser = sessionService.isLoginUser();
-        if (isLoginUser != true) {
+        if (!isLoginUser) {
             return UNAUTHORIZED;
         }
         userService.updatePassword(updatePasswordUser);
+        return OK;
+    }
+
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUser(@RequestBody LoginUser loginUser) {
+
+        boolean isLoginUser = sessionService.isLoginUser();
+        if(!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        userService.deleteUser(loginUser);
         return OK;
     }
 
