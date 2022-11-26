@@ -32,12 +32,10 @@ public class SessionService {
 
 
     public boolean isLoginUser() {
-        try {
-            final Object loginId = httpSession.getAttribute(LOGIN_MEMBER_ID);
-            return loginId != null;
-        } catch (InValidValueException e) {
-            return false;
-        }
+        final Object loginId = httpSession.getAttribute(LOGIN_MEMBER_ID);
+        if (loginId == null)
+            throw new InValidValueException("로그인되지 않은 사용자입니다.");
+        return true;
     }
-}
 
+}
