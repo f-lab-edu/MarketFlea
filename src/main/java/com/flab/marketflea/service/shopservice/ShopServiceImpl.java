@@ -58,8 +58,12 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public void deleteShop(Shop shop) {
-        shopMapper.deleteShop(shop);
+    @Transactional
+    public void deleteShop(long id) {
+        if (!shopMapper.isShopExist(id)) {
+            throw new InValidStatusException("존재하지 않는 SHOP 입니다.");
+        }
+        shopMapper.deleteShop(id);
 
     }
 }

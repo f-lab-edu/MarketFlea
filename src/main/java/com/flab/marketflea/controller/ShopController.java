@@ -18,7 +18,6 @@ import static com.flab.marketflea.common.ResponseEntityConstants.*;
 @RequestMapping("/shops")
 public class ShopController {
 
-
     private final ShopService shopService;
     private final SessionService sessionService;
 
@@ -41,13 +40,24 @@ public class ShopController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateShop(@PathVariable("id") long id , @Valid @RequestBody ShopRequest shop) {
         boolean isLoginUser = sessionService.isLoginUser();
-
         if (!isLoginUser) {
             return UNAUTHORIZED;
         }
         shopService.updateShop(id, shop);
-
         return OK;
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") long id ) {
+
+        boolean isLoginUser = sessionService.isLoginUser();
+        if(!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        shopService.deleteShop(id);
+        return OK;
+    }
+
+
 
 }

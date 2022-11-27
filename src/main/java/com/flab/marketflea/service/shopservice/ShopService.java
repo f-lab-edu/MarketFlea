@@ -12,4 +12,5 @@ public interface ShopService {
 
     void updateShop(long id, ShopRequest shop);
 
+    void deleteShop(long id);
 }

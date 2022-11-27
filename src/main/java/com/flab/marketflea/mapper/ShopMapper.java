@@ -14,5 +14,5 @@ public interface ShopMapper {
 
     void updateShop(Shop shop);
 
-    void deleteShop(Shop shop);
+    void deleteShop(long shopId);
 }

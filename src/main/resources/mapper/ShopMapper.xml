@@ -26,6 +26,11 @@
         WHERE id = #{id}
     </update>
 
+    <delete id="deleteShop" parameterType="com.flab.marketflea.model.shop.Shop">
+        DELETE FROM shops
+        WHERE id = #{id}
+    </delete>
+
 
 
 </mapper>
