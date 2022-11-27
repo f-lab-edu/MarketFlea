@@ -1,6 +1,6 @@
 package com.flab.marketflea.common;
 
-import com.flab.marketflea.exception.InValidValueException;
+import com.flab.marketflea.exception.user.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -34,7 +34,7 @@ public class SessionService {
     public boolean isLoginUser() {
         final Object loginId = httpSession.getAttribute(LOGIN_MEMBER_ID);
         if (loginId == null)
-            throw new InValidValueException("로그인되지 않은 사용자입니다.");
+            throw new UserNotFoundException();
         return true;
     }
 

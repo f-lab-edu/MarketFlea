@@ -1,6 +1,7 @@
 package com.flab.marketflea.service.shopservice;
 
-import com.flab.marketflea.exception.InValidStatusException;
+import com.flab.marketflea.exception.shop.InValidStatusException;
+import com.flab.marketflea.exception.shop.ShopNotFoundException;
 import com.flab.marketflea.mapper.ShopMapper;
 import com.flab.marketflea.model.shop.Shop;
 import com.flab.marketflea.model.shop.ShopRequest;
@@ -53,7 +54,7 @@ public class ShopServiceImpl implements ShopService {
     public void updateShop(long id, ShopRequest shop) {
         Shop.ShopStatus shopStatus = getShopByShopId(id).getStatus();
         if (shopStatus == Shop.ShopStatus.REQUEST || shopStatus == Shop.ShopStatus.OPEN)
-            throw new InValidStatusException("수정할 수 없는 상태입니다.");
+            throw new InValidStatusException();
         shopMapper.updateShop(shop.toEntity(id));
     }
 
@@ -61,7 +62,7 @@ public class ShopServiceImpl implements ShopService {
     @Transactional
     public void deleteShop(long id) {
         if (!shopMapper.isShopExist(id)) {
-            throw new InValidStatusException("존재하지 않는 SHOP 입니다.");
+            throw new ShopNotFoundException();
         }
         shopMapper.deleteShop(id);
 

@@ -1,6 +1,6 @@
 package com.flab.marketflea.service.userservice;
 
-import com.flab.marketflea.exception.InValidValueException;
+import com.flab.marketflea.exception.user.WrongPasswordException;
 import com.flab.marketflea.mapper.UserMapper;
 import com.flab.marketflea.model.user.*;
 import com.flab.marketflea.security.PasswordEncoder;
@@ -53,8 +53,7 @@ public class UserService {
 
 
     @Transactional
-    public void updatePassword(UpdatePasswordUser updatePasswordUser)
-            throws InValidValueException {
+    public void updatePassword(UpdatePasswordUser updatePasswordUser) {
 
         UpdatePasswordUser encodeUser = UpdatePasswordUser.builder()
                 .userId(updatePasswordUser.getUserId())
@@ -64,7 +63,7 @@ public class UserService {
 
     }
 
-    public void deleteUser(LoginUser loginUser) throws InValidValueException {
+    public void deleteUser(LoginUser loginUser) {
 
         LoginUser encodeUser = LoginUser.builder()
                 .userId(loginUser.getUserId())
@@ -74,7 +73,7 @@ public class UserService {
         boolean isValidPassword = passwordEncoder.matches(loginUser.getPassword(), userMapper.getUserById(loginUser.getUserId()).getPassword());
 
         if (!isValidPassword) {
-            throw new InValidValueException("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+            throw new WrongPasswordException();
         }
 
         userMapper.deleteUser(encodeUser);
