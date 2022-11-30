@@ -10,14 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ShopServiceImpl implements ShopService {
 
     private final ShopMapper shopMapper;
-
 
     @Override
     public void createShop(ShopRequest shop) {
@@ -32,10 +30,8 @@ public class ShopServiceImpl implements ShopService {
                 .createdAt(shop.getCreatedAt())
                 .updatedAt(shop.getUpdatedAt())
                 .build();
-
         shopMapper.createShop(createdShop);
     }
-
 
     @Override
     public boolean isShopExist(long shopId) {
@@ -47,7 +43,6 @@ public class ShopServiceImpl implements ShopService {
         return shopMapper.getShopByShopId(shopId);
     }
 
-
     @Override
     @Transactional
     public void updateShop(long id, ShopRequest shop) {
@@ -57,9 +52,9 @@ public class ShopServiceImpl implements ShopService {
         shopMapper.updateShop(shop.toEntity(id));
     }
 
-    @Override
-    public void deleteShop(Shop shop) {
-        shopMapper.deleteShop(shop);
-
-    }
+//    @Override
+//    public void deleteShop(Shop shop) {
+//        shopMapper.deleteShop(shop);
+//
+//    }
 }

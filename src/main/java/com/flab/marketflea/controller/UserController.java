@@ -38,10 +38,10 @@ public class UserController {
         boolean isIdDuplicated = userService.isIdExist(id);
         if (isIdDuplicated) {
             return CONFLICT;
-        } else {
-            return OK;
         }
+        return OK;
     }
+
 
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping("/login")
@@ -54,7 +54,6 @@ public class UserController {
         loginService.logout();
     }
 
-
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody @Valid UpdateUser updateUser) {
         boolean isLoginUser = sessionService.isLoginUser();
@@ -65,8 +64,6 @@ public class UserController {
 
         return OK;
     }
-
-
 
     @PatchMapping("/password")
     public ResponseEntity<Void> updatePassword(@RequestBody @Valid UpdatePasswordUser updatePasswordUser) {
@@ -83,7 +80,7 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@RequestBody LoginUser loginUser) {
 
         boolean isLoginUser = sessionService.isLoginUser();
-        if(!isLoginUser) {
+        if (!isLoginUser) {
             return UNAUTHORIZED;
         }
         userService.deleteUser(loginUser);

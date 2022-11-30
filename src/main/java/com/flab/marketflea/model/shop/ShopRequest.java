@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class ShopRequest {
 
     @NotBlank(message = "SHOP 이름을 입력해주세요.")

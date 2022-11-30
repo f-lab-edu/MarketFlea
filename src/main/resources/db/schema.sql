@@ -16,8 +16,8 @@ CREATE TABLE users
   PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS shops;
-CREATE TABLE shops
+DROP TABLE IF EXISTS shop;
+CREATE TABLE shop
 (
   id            BIGINT      NOT NULL AUTO_INCREMENT,
   shopName      VARCHAR(48) NOT NULL,
