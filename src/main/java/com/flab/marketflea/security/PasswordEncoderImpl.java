@@ -1,6 +1,7 @@
 package com.flab.marketflea.security;
 
-import com.flab.marketflea.exception.EncoderNoSuchAlgorithmException;
+import com.flab.marketflea.common.ErrorCode;
+import com.flab.marketflea.exception.user.EncoderNoSuchAlgorithmException;
 import org.springframework.stereotype.Component;
 
 import java.security.MessageDigest;
@@ -17,7 +18,7 @@ public class PasswordEncoderImpl implements PasswordEncoder {
             md.update(password.getBytes());
             return bytesToHex(md.digest());
         } catch (NoSuchAlgorithmException e) {
-            throw new EncoderNoSuchAlgorithmException("암호화 실패");
+            throw new EncoderNoSuchAlgorithmException("EncoderNoSuchAlgorithmException", ErrorCode.ENCODER_FAILED_ERROR);
         }
     }
     public static String bytesToHex(byte[] bytes) {
