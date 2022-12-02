@@ -26,7 +26,6 @@ public class ShopServiceImpl implements ShopService {
     public void createShop(ShopRequest shop) {
 
         Shop createdShop = Shop.builder()
-                .id(0)
                 .shopName(shop.getShopName())
                 .shopPhone(shop.getShopPhone())
                 .status(Shop.ShopStatus.REQUEST)
