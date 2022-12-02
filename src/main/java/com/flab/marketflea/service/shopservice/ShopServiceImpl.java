@@ -1,6 +1,9 @@
 package com.flab.marketflea.service.shopservice;
 
-import com.flab.marketflea.exception.InValidStatusException;
+import com.flab.marketflea.common.ErrorCode;
+import com.flab.marketflea.exception.shop.DuplicatedShopException;
+import com.flab.marketflea.exception.shop.InValidStatusException;
+import com.flab.marketflea.exception.shop.ShopNotFoundException;
 import com.flab.marketflea.mapper.ShopMapper;
 import com.flab.marketflea.model.shop.Shop;
 import com.flab.marketflea.model.shop.ShopRequest;
@@ -10,12 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ShopServiceImpl implements ShopService {
 
     private final ShopMapper shopMapper;
+
 
     @Override
     public void createShop(ShopRequest shop) {
@@ -30,12 +35,16 @@ public class ShopServiceImpl implements ShopService {
                 .createdAt(shop.getCreatedAt())
                 .updatedAt(shop.getUpdatedAt())
                 .build();
+
         shopMapper.createShop(createdShop);
     }
 
+
     @Override
     public boolean isShopExist(long shopId) {
-        return shopMapper.isShopExist(shopId);
+        if(shopMapper.isShopExist(shopId))
+            throw new DuplicatedShopException("DuplicatedShopException", ErrorCode.EMAIL_DUPLICATION);
+        return false;
     }
 
     @Override
@@ -43,18 +52,23 @@ public class ShopServiceImpl implements ShopService {
         return shopMapper.getShopByShopId(shopId);
     }
 
+
     @Override
     @Transactional
     public void updateShop(long id, ShopRequest shop) {
         Shop.ShopStatus shopStatus = getShopByShopId(id).getStatus();
         if (shopStatus == Shop.ShopStatus.REQUEST || shopStatus == Shop.ShopStatus.OPEN)
-            throw new InValidStatusException("수정할 수 없는 상태입니다.");
+            throw new InValidStatusException("InValidStatusException", ErrorCode.INVALID_SHOP_STATUS);
         shopMapper.updateShop(shop.toEntity(id));
     }
 
-//    @Override
-//    public void deleteShop(Shop shop) {
-//        shopMapper.deleteShop(shop);
-//
-//    }
+    @Override
+    @Transactional
+    public void deleteShop(long id) {
+        if (!shopMapper.isShopExist(id)) {
+            throw new ShopNotFoundException("ShopNotFoundException", ErrorCode.SHOP_NOT_FOUND);
+        }
+        shopMapper.deleteShop(id);
+
+    }
 }

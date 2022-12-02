@@ -1,5 +1,6 @@
 package com.flab.marketflea.controller;
 
+
 import com.flab.marketflea.common.SessionService;
 import com.flab.marketflea.model.shop.ShopRequest;
 import com.flab.marketflea.service.shopservice.ShopService;
@@ -21,7 +22,7 @@ public class ShopController {
     private final SessionService sessionService;
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping("shops")
     public void crateShop(@RequestBody ShopRequest shop) {
         shopService.createShop(shop);
     }
@@ -31,12 +32,13 @@ public class ShopController {
         boolean isIdDuplicated = shopService.isShopExist(shopId);
         if (isIdDuplicated) {
             return CONFLICT;
+        } else {
+            return OK;
         }
-        return OK;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateShop(@PathVariable("id") long id, @Valid @RequestBody ShopRequest shop) {
+    public ResponseEntity<Void> updateShop(@PathVariable("id") long id , @Valid @RequestBody ShopRequest shop) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
             return UNAUTHORIZED;
@@ -44,4 +46,18 @@ public class ShopController {
         shopService.updateShop(id, shop);
         return OK;
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") long id ) {
+
+        boolean isLoginUser = sessionService.isLoginUser();
+        if(!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        shopService.deleteShop(id);
+        return OK;
+    }
+
+
+
 }
