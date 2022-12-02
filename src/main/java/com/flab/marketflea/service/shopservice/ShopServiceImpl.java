@@ -1,5 +1,7 @@
 package com.flab.marketflea.service.shopservice;
 
+import com.flab.marketflea.common.ErrorCode;
+import com.flab.marketflea.exception.shop.DuplicatedShopException;
 import com.flab.marketflea.exception.shop.InValidStatusException;
 import com.flab.marketflea.exception.shop.ShopNotFoundException;
 import com.flab.marketflea.mapper.ShopMapper;
@@ -40,7 +42,9 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public boolean isShopExist(long shopId) {
-        return shopMapper.isShopExist(shopId);
+        if(shopMapper.isShopExist(shopId))
+            throw new DuplicatedShopException("DuplicatedShopException", ErrorCode.EMAIL_DUPLICATION);
+        return false;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class ShopServiceImpl implements ShopService {
     public void updateShop(long id, ShopRequest shop) {
         Shop.ShopStatus shopStatus = getShopByShopId(id).getStatus();
         if (shopStatus == Shop.ShopStatus.REQUEST || shopStatus == Shop.ShopStatus.OPEN)
-            throw new InValidStatusException();
+            throw new InValidStatusException("InValidStatusException", ErrorCode.INVALID_SHOP_STATUS);
         shopMapper.updateShop(shop.toEntity(id));
     }
 
@@ -62,7 +66,7 @@ public class ShopServiceImpl implements ShopService {
     @Transactional
     public void deleteShop(long id) {
         if (!shopMapper.isShopExist(id)) {
-            throw new ShopNotFoundException();
+            throw new ShopNotFoundException("ShopNotFoundException", ErrorCode.SHOP_NOT_FOUND);
         }
         shopMapper.deleteShop(id);
 

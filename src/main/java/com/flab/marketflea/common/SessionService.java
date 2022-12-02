@@ -34,7 +34,7 @@ public class SessionService {
     public boolean isLoginUser() {
         final Object loginId = httpSession.getAttribute(LOGIN_MEMBER_ID);
         if (loginId == null)
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("UserNotFoundException", ErrorCode.USER_NOT_FOUND);
         return true;
     }
 

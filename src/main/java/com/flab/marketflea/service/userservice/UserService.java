@@ -1,5 +1,6 @@
 package com.flab.marketflea.service.userservice;
 
+import com.flab.marketflea.common.ErrorCode;
 import com.flab.marketflea.exception.user.WrongPasswordException;
 import com.flab.marketflea.mapper.UserMapper;
 import com.flab.marketflea.model.user.*;
@@ -73,7 +74,7 @@ public class UserService {
         boolean isValidPassword = passwordEncoder.matches(loginUser.getPassword(), userMapper.getUserById(loginUser.getUserId()).getPassword());
 
         if (!isValidPassword) {
-            throw new WrongPasswordException();
+            throw new WrongPasswordException("WrongPasswordException", ErrorCode.WRONG_PASSWORD);
         }
 
         userMapper.deleteUser(encodeUser);

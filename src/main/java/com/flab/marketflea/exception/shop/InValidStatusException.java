@@ -1,4 +1,14 @@
 package com.flab.marketflea.exception.shop;
 
-public class InValidStatusException extends RuntimeException {
+import com.flab.marketflea.common.ErrorCode;
+import lombok.Getter;
+
+@Getter
+public class InValidStatusException extends IllegalArgumentException {
+    private ErrorCode errorCode;
+
+    public InValidStatusException(String message, ErrorCode errorCode){
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

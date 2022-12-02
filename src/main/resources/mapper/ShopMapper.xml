@@ -6,28 +6,28 @@
 
     <insert id="createShop" parameterType="com.flab.marketflea.model.shop.ShopRequest">
         INSERT
-        INTO shops(id, shopName, shopPhone, status, shopOpenTime, shopCloseTime, createdAt, updatedAt)
+        INTO shop(id, shopName, shopPhone, status, shopOpenTime, shopCloseTime, createdAt, updatedAt)
         VALUES (#{id}, #{shopName}, #{shopPhone}, #{status}, #{shopOpenTime}, #{shopCloseTime}, now(), now())
     </insert>
 
     <select id="isShopExist" resultType="boolean">
-        SELECT EXISTS(SELECT * FROM shops WHERE id = #{id})
+        SELECT EXISTS(SELECT * FROM shop WHERE id = #{id})
     </select>
 
     <select id="getShopByShopId" resultType="com.flab.marketflea.model.shop.ShopResponse">
         SELECT id, shopName, shopPhone, status, shopOpenTime, shopCloseTime, createdAt, updatedAt
-        FROM shops
+        FROM shop
         WHERE id = #{id}
     </select>
 
     <update id="updateShop" parameterType="com.flab.marketflea.model.shop.Shop">
-        UPDATE shops
+        UPDATE shop
         SET shopName = #{shopName}, shopPhone = #{shopPhone}, shopOpenTime = #{shopOpenTime}, shopCloseTime = #{shopCloseTime}
         WHERE id = #{id}
     </update>
 
     <delete id="deleteShop" parameterType="com.flab.marketflea.model.shop.Shop">
-        DELETE FROM shops
+        DELETE FROM shop
         WHERE id = #{id}
     </delete>
 
