@@ -22,18 +22,18 @@ public class ProductController {
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void crateShop(@RequestBody ProductRequest requestDto) {
+    public void addItem(@RequestBody @Valid ProductRequest requestDto) {
         productService.addItem(requestDto);
     }
 
-    @GetMapping("/{shopId}/duplicate")
-    public ResponseEntity<Void> addItem(@RequestBody @Valid ProductRequest requestDto) {
-        boolean isIdDuplicated = productService.isProductExist(requestDto.getShopId(), requestDto.getProductName());
+    @GetMapping("/{productId}/duplicate")
+    public ResponseEntity<Void> isIdDuplicated(@PathVariable long productId) {
+        boolean isIdDuplicated = productService.isProductExist(productId);
         if (isIdDuplicated) {
             return CONFLICT;
         } else {
             return OK;
         }
-
     }
+
 }

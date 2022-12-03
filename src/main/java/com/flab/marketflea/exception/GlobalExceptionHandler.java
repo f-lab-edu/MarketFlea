@@ -3,6 +3,7 @@ package com.flab.marketflea.exception;
 
 import com.flab.marketflea.common.ErrorCode;
 import com.flab.marketflea.common.ErrorResponse;
+import com.flab.marketflea.exception.product.DuplicatedProductException;
 import com.flab.marketflea.exception.shop.DuplicatedShopException;
 import com.flab.marketflea.exception.shop.InValidStatusException;
 import com.flab.marketflea.exception.shop.ShopNotFoundException;
@@ -57,8 +58,15 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(WrongPasswordException.class)
-    public final ResponseEntity<ErrorResponse> wrongPasswordException(WrongPasswordException e) {
+    public final ResponseEntity<ErrorResponse> handleWrongPasswordException(WrongPasswordException e) {
         log.debug("비밀번호가 일치하지 않습니다.", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(DuplicatedProductException.class)
+    public final ResponseEntity<ErrorResponse> handleDuplicatedProductException(DuplicatedProductException e) {
+        log.debug("중복된 상품입니다.", e);
         ErrorResponse response = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }

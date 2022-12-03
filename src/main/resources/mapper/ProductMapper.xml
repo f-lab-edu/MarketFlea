@@ -8,4 +8,9 @@
         INTO product(shopId, productName, category, productQty, price, releaseDate, createdAt, updatedAt)
         VALUES (#{shopId}, #{productName}, #{category}, #{productQty}, #{price}, #{releaseDate}, now(), now())
     </insert>
+
+    <select id="isProductExist" resultType="boolean">
+        SELECT EXISTS(SELECT * FROM product WHERE id = #{id})
+    </select>
+
 </mapper>

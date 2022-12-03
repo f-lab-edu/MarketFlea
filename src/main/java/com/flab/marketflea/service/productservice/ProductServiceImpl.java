@@ -4,7 +4,6 @@ import com.flab.marketflea.common.ErrorCode;
 import com.flab.marketflea.exception.product.DuplicatedProductException;
 import com.flab.marketflea.mapper.ProductMapper;
 import com.flab.marketflea.model.product.ProductRequest;
-import com.flab.marketflea.model.product.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +20,10 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public boolean isProductExist(long shopId, String productName) {
-        if (productMapper.isProductIdExist(shopId, productName))
+    public boolean isProductExist(long productId) {
+        if (productMapper.isProductExist(productId))
             throw new DuplicatedProductException("DuplicatedProductException", ErrorCode.PRODUCT_DUPLICATION);
         return false;
     }
 
-    @Override
-    public ProductResponse getProductByShopIdAndProductName(long shopId, String productName) {
-        return productMapper.getProductByShopIdAndProductName(shopId, productName);
-
-    }
 }
