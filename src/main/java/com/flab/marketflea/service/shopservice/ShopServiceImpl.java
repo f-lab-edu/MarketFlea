@@ -21,7 +21,6 @@ public class ShopServiceImpl implements ShopService {
 
     private final ShopMapper shopMapper;
 
-
     @Override
     public void createShop(ShopRequest shop) {
 
@@ -37,7 +36,6 @@ public class ShopServiceImpl implements ShopService {
 
         shopMapper.createShop(createdShop);
     }
-
 
     @Override
     public boolean isShopExist(long shopId) {

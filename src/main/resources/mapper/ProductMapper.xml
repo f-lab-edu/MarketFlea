@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.flab.marketflea.mapper.ProductMapper">
+    <insert id="addItem" parameterType="com.flab.marketflea.model.product.ProductRequest">
+        INSERT
+        INTO product(shopId, productName, category, productQty, price, releaseDate, createdAt, updatedAt)
+        VALUES (#{shopId}, #{productName}, #{category}, #{productQty}, #{price}, #{releaseDate}, now(), now())
+    </insert>
+</mapper>
