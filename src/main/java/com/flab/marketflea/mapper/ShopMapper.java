@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ShopMapper {
+
     void createShop(Shop shop);
 
     boolean isShopExist(long shopId);

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
@@ -23,6 +24,7 @@ public class ProductRequest {
     @NotNull
     private long shopId;
 
+    @Length(max = 45)
     @NotBlank(message = "상품명을 입력해주세요.")
     private String productName;
 

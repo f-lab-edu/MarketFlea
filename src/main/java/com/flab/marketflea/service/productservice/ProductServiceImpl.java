@@ -20,8 +20,8 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public boolean isProductExist(long productId) {
-        if (productMapper.isProductExist(productId))
+    public boolean validateProduct(long productId) {
+        if (productMapper.validateProduct(productId))
             throw new DuplicatedProductException("DuplicatedProductException", ErrorCode.PRODUCT_DUPLICATION);
         return false;
     }

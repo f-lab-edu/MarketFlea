@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ProductMapper {
 
     void addItem(ProductRequest product);
-    boolean isProductExist(long productId);
+    boolean validateProduct(long productId);
 
 }

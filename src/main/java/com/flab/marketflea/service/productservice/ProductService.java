@@ -5,6 +5,6 @@ import com.flab.marketflea.model.product.ProductRequest;
 public interface ProductService {
 
     void addItem(ProductRequest requestDto);
-    boolean isProductExist(long productId);
+    boolean validateProduct(long productId);
 
 }
