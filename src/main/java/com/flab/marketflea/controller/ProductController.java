@@ -1,16 +1,25 @@
 package com.flab.marketflea.controller;
 
+import static com.flab.marketflea.common.ResponseEntityConstants.CONFLICT;
+import static com.flab.marketflea.common.ResponseEntityConstants.OK;
+import static com.flab.marketflea.common.ResponseEntityConstants.UNAUTHORIZED;
+
+import com.flab.marketflea.common.SessionService;
 import com.flab.marketflea.model.product.ProductRequest;
 import com.flab.marketflea.service.productservice.ProductService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-
-import static com.flab.marketflea.common.ResponseEntityConstants.CONFLICT;
-import static com.flab.marketflea.common.ResponseEntityConstants.OK;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -19,6 +28,7 @@ import static com.flab.marketflea.common.ResponseEntityConstants.OK;
 public class ProductController {
 
     private final ProductService productService;
+    private final SessionService sessionService;
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
@@ -26,14 +36,35 @@ public class ProductController {
         productService.addItem(requestDto);
     }
 
-    @GetMapping("/{productId}/duplicate")
-    public ResponseEntity<Void> isIdDuplicated(@PathVariable long productId) {
-        boolean isIdDuplicated = productService.isProductExist(productId);
+    @GetMapping("/{id}/duplicate")
+    public ResponseEntity<Void> isIdDuplicated(@PathVariable long id) {
+        boolean isIdDuplicated = productService.isProductExist(id);
         if (isIdDuplicated) {
             return CONFLICT;
         } else {
             return OK;
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateProduct(@PathVariable("id") long id, @Valid @RequestBody ProductRequest product) {
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        productService.updateProduct(id, product);
+        return OK;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") long id, @RequestBody ProductRequest product) {
+
+        boolean isLoginUser = sessionService.isLoginUser();
+        if(!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        productService.deleteProduct(id, product);
+        return OK;
     }
 
 }

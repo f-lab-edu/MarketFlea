@@ -18,6 +18,7 @@ public enum ErrorCode {
     // 404 NOT_FOUND 잘못된 리소스 접근
     SHOP_NOT_FOUND (404, "해당 Shop 을 찾을 수 없습니다. "),
     USER_NOT_FOUND(404, "가입하지 않은 아이디거나, 잘못된 비밀번호 입니다."),
+    PRODUCT_NOT_FOUND(404, "해당 Product 를 찾을 수 없습니다."),
 
     // 409 CONFLICT 중복된 리소스
 

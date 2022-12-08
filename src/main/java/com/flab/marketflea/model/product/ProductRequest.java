@@ -44,8 +44,9 @@ public class ProductRequest {
     private LocalDateTime updatedAt;
 
 
-    public Product toNewEntity() {
+    public Product toEntity(long id) {
         return Product.builder()
+                .id(id)
                 .shopId(this.shopId)
                 .productName(this.productName)
                 .category(this.category)
