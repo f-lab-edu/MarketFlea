@@ -1,8 +1,11 @@
 package com.flab.marketflea.mapper;
 
 import com.flab.marketflea.model.shop.Shop;
+import com.flab.marketflea.model.shop.Shop.ShopStatus;
+import com.flab.marketflea.model.shop.ShopRequest;
 import com.flab.marketflea.model.shop.ShopResponse;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface ShopMapper {
@@ -14,5 +17,7 @@ public interface ShopMapper {
 
     void updateShop(Shop shop);
 
-    void deleteShop(long shopId);
+    void deleteShop(long shopId, ShopRequest shopRequest);
+
+    void updateShopStatus(@Param("id") long id, @Param("status") ShopStatus status);
 }
