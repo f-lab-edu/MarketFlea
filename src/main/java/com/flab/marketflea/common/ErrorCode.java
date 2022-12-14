@@ -13,7 +13,7 @@ public enum ErrorCode {
     WRONG_PASSWORD(400, "비밀번호를 확인해주세요. "),
     EMAIL_DUPLICATION(400, "중복된 Email 입니다."),
     SHOP_DUPLICATION(400, "중복된 Shop 입니다."),
-    PRODUCT_DUPLICATION(400, "중복된 item 입니다."),
+    PRODUCT_DUPLICATION(400, "이미 존재하는 Product 이름입니다."),
 
     // 404 NOT_FOUND 잘못된 리소스 접근
     SHOP_NOT_FOUND (404, "해당 Shop 을 찾을 수 없습니다. "),

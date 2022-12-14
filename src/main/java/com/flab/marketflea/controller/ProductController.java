@@ -1,6 +1,5 @@
 package com.flab.marketflea.controller;
 
-import static com.flab.marketflea.common.ResponseEntityConstants.CONFLICT;
 import static com.flab.marketflea.common.ResponseEntityConstants.OK;
 import static com.flab.marketflea.common.ResponseEntityConstants.UNAUTHORIZED;
 
@@ -12,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,18 +31,13 @@ public class ProductController {
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void addProduct(@RequestBody @Valid ProductRequest requestDto) {
-        productService.addProduct(requestDto);
-    }
-
-    @GetMapping("/{productName}/duplicate")
-    public ResponseEntity<Void> isIdDuplicated(@PathVariable String productName) {
-        boolean isIdDuplicated = productService.isProductNameExist(productName);
-        if (isIdDuplicated) {
-            return CONFLICT;
-        } else {
-            return OK;
+    public ResponseEntity<Void>  addProduct(@RequestBody @Valid ProductRequest requestDto) {
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
         }
+        productService.addProduct(requestDto);
+        return OK;
     }
 
     @PutMapping("/{id}")
