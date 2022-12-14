@@ -10,7 +10,7 @@
     </insert>
 
     <select id="isProductExist" resultType="boolean">
-        SELECT EXISTS(SELECT * FROM product WHERE id = #{id})
+        SELECT EXISTS(SELECT * FROM product WHERE productName = #{productName})
     </select>
 
     <select id="getProductById" resultType="com.flab.marketflea.model.product.ProductResponse">
@@ -27,6 +27,6 @@
 
     <delete id="deleteProduct" parameterType="com.flab.marketflea.model.product.Product">
         DELETE FROM product
-        WHERE id = #{id}
+        WHERE productName = #{productName}
     </delete>
 </mapper>

@@ -17,16 +17,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductServiceImpl implements ProductService{
 
     private final ProductMapper productMapper;
-    private final ShopService shopService;
 
     @Override
-    public void addItem(ProductRequest requestDto) {
+    public void addProduct(ProductRequest requestDto) {
         productMapper.addItem(requestDto);
     }
 
     @Override
-    public boolean isProductExist(long productId) {
-        if (productMapper.isProductExist(productId))
+    public boolean isProductExist(String productName) {
+        if (productMapper.isProductExist(productName))
             throw new DuplicatedProductException("DuplicatedProductException", ErrorCode.PRODUCT_DUPLICATION);
         return false;
     }
@@ -44,11 +43,11 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     @Transactional
-    public void deleteProduct(long id, ProductRequest product) {
-        if (!productMapper.isProductExist(id)) {
+    public void deleteProduct(String productName, ProductRequest product) {
+        if (!productMapper.isProductExist(productName)) {
             throw new ProductNotFoundException("ProductNotFoundException", ErrorCode.PRODUCT_NOT_FOUND);
         }
-        productMapper.deleteProduct(id);
+        productMapper.deleteProduct(productName);
 
     }
 }

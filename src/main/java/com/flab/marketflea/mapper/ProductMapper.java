@@ -10,11 +10,11 @@ public interface ProductMapper {
 
     void addItem(ProductRequest product);
 
-    boolean isProductExist(long productId);
+    boolean isProductExist(String productName);
 
     ProductResponse getProductById(long productId);
 
     void updateProduct(Product product);
 
-    void deleteProduct(long productId);
+    void deleteProduct(String productName);
 }

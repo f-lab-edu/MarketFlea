@@ -1,8 +1,6 @@
 package com.flab.marketflea.controller;
 
-import static com.flab.marketflea.common.ResponseEntityConstants.CONFLICT;
-import static com.flab.marketflea.common.ResponseEntityConstants.OK;
-import static com.flab.marketflea.common.ResponseEntityConstants.UNAUTHORIZED;
+import static com.flab.marketflea.common.ResponseEntityConstants.*;
 
 import com.flab.marketflea.common.SessionService;
 import com.flab.marketflea.model.product.ProductRequest;
@@ -33,12 +31,12 @@ public class ProductController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
     public void addItem(@RequestBody @Valid ProductRequest requestDto) {
-        productService.addItem(requestDto);
+        productService.addProduct(requestDto);
     }
 
-    @GetMapping("/{id}/duplicate")
-    public ResponseEntity<Void> isIdDuplicated(@PathVariable long id) {
-        boolean isIdDuplicated = productService.isProductExist(id);
+    @GetMapping("/{productName}/duplicate")
+    public ResponseEntity<Void> isIdDuplicated(@PathVariable String productName) {
+        boolean isIdDuplicated = productService.isProductExist(productName);
         if (isIdDuplicated) {
             return CONFLICT;
         } else {
@@ -56,14 +54,14 @@ public class ProductController {
         return OK;
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") long id, @RequestBody ProductRequest product) {
+    @DeleteMapping("/{productName}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable("productName") String productName, @RequestBody ProductRequest product) {
 
         boolean isLoginUser = sessionService.isLoginUser();
         if(!isLoginUser) {
             return UNAUTHORIZED;
         }
-        productService.deleteProduct(id, product);
+        productService.deleteProduct(productName, product);
         return OK;
     }
 
