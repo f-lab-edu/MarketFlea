@@ -6,8 +6,8 @@ import com.flab.marketflea.model.product.ProductResponse;
 public interface ProductService {
 
     void addProduct(ProductRequest requestDto);
-    boolean isProductExist(String productName);
+    boolean isProductNameExist(String productName);
     ProductResponse getProductById(long productId);
     void updateProduct(long id, ProductRequest product);
-    void deleteProduct(String productName, ProductRequest product);
+    void deleteProduct(long id);
 }

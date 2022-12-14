@@ -8,13 +8,13 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ProductMapper {
 
-    void addItem(ProductRequest product);
+    void addProduct(ProductRequest product);
 
-    boolean isProductExist(String productName);
+    boolean isProductNameExist(String productName);
 
     ProductResponse getProductById(long productId);
 
     void updateProduct(Product product);
 
-    void deleteProduct(String productName);
+    void deleteProduct(long id);
 }
