@@ -1,8 +1,10 @@
 package com.flab.marketflea.controller;
 
-import static com.flab.marketflea.common.ResponseEntityConstants.CONFLICT;
 import static com.flab.marketflea.common.ResponseEntityConstants.OK;
+import static com.flab.marketflea.common.ResponseEntityConstants.UNAUTHORIZED;
 
+import com.flab.marketflea.common.SessionService;
+import com.flab.marketflea.model.product.ProductResponse;
 import com.flab.marketflea.model.product.ProductRequest;
 import com.flab.marketflea.service.productservice.ProductService;
 import javax.validation.Valid;
@@ -24,20 +26,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final ProductService productService;
+    private final SessionService sessionService;
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void addItem(@RequestBody @Valid ProductRequest requestDto) {
-        productService.addItem(requestDto);
+    public ResponseEntity<Void> addProduct(@RequestBody @Valid ProductRequest requestDto) {
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        productService.addProduct(requestDto);
+        return OK;
     }
 
-
-    @GetMapping("/{productId}/duplicate")
-    public ResponseEntity<Void> isIdDuplicated(@PathVariable long productId) {
-        boolean isIdDuplicated = productService.validateProduct(productId);
-        if (isIdDuplicated) {
-            return CONFLICT;
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> getProductInfo(@PathVariable("id") long id) {
+        ProductResponse productResponse = productService.getProductInfo(id);
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
         }
-        return OK;
+        return ResponseEntity.ok(productResponse);
     }
 }

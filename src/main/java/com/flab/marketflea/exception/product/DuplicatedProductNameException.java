@@ -4,11 +4,11 @@ import com.flab.marketflea.common.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class DuplicatedProductException extends IllegalArgumentException {
+public class DuplicatedProductNameException extends IllegalArgumentException {
 
     private ErrorCode errorCode;
 
-    public DuplicatedProductException(String message, ErrorCode errorCode) {
+    public DuplicatedProductNameException(String message, ErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;
     }

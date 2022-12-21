@@ -1,8 +1,10 @@
 package com.flab.marketflea.service.productservice;
 
 import com.flab.marketflea.common.ErrorCode;
-import com.flab.marketflea.exception.product.DuplicatedProductException;
+import com.flab.marketflea.exception.product.DuplicatedProductNameException;
+import com.flab.marketflea.exception.product.ProductNotFoundException;
 import com.flab.marketflea.mapper.ProductMapper;
+import com.flab.marketflea.model.product.ProductResponse;
 import com.flab.marketflea.model.product.ProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,15 +17,16 @@ public class ProductServiceImpl implements ProductService{
     private final ProductMapper productMapper;
 
     @Override
-    public void addItem(ProductRequest requestDto) {
+    public void addProduct(ProductRequest requestDto) {
+        if(productMapper.checkDuplicateProductName(requestDto.getProductName()))
+            throw new  DuplicatedProductNameException("DuplicatedProductNameException", ErrorCode.PRODUCT_DUPLICATION);
         productMapper.addItem(requestDto);
     }
 
     @Override
-    public boolean validateProduct(long productId) {
-        if (productMapper.validateProduct(productId))
-            throw new DuplicatedProductException("DuplicatedProductException", ErrorCode.PRODUCT_DUPLICATION);
-        return false;
+    public ProductResponse getProductInfo(long id) {
+        if(!productMapper.isProductExist(id))
+            throw new ProductNotFoundException("ProductNotFoundException", ErrorCode.PRODUCT_NOT_FOUND);
+        return productMapper.findById(id);
     }
-
 }
