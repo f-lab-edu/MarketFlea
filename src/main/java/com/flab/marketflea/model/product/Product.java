@@ -18,6 +18,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Product {
 
     @NotNull
+    private long id;
+
+    @NotNull
     private long shopId;
 
     @Length(max = 45)
