@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public enum Role {
     ADMIN,
-    MERCHANDISER,
+    SELLER,
     CUSTOMER
 }

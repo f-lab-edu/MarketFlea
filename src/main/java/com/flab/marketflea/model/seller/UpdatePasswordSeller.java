@@ -1,4 +1,4 @@
-package com.flab.marketflea.model.user;
+package com.flab.marketflea.model.seller;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -8,11 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
-@Builder
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginUser {
+public class UpdatePasswordSeller {
 
     @NotBlank(message = "아이디는 필수 입력 값입니다.")
     private String userId;

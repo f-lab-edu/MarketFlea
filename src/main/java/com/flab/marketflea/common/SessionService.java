@@ -1,11 +1,10 @@
 package com.flab.marketflea.common;
 
 import com.flab.marketflea.exception.user.UserNotFoundException;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpSession;
 
 @Slf4j
 @Component
@@ -31,8 +30,9 @@ public class SessionService {
 
     public boolean isLoginUser() {
         final Object loginId = httpSession.getAttribute(LOGIN_MEMBER_ID);
-        if (loginId == null)
+        if (loginId == null) {
             throw new UserNotFoundException("UserNotFoundException", ErrorCode.USER_NOT_FOUND);
+        }
         return true;
     }
 

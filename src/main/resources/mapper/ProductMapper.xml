@@ -21,7 +21,7 @@
 
     <update id="updateProduct" parameterType="com.flab.marketflea.model.product.Product">
         UPDATE product
-        SET ProductName = #{productName}, category = #{category}, productQty = #{productQty}, price = #{price}, releaseDate = #{releaseDate}
+        SET productName = #{productName}, category = #{category}, productQty = #{productQty}, price = #{price}, releaseDate = #{releaseDate}
         WHERE id = #{id}
     </update>
 

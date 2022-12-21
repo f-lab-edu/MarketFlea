@@ -21,6 +21,7 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND(404, "해당 Product 를 찾을 수 없습니다."),
 
     // 409 CONFLICT 중복된 리소스
+    USER_DUPLICATION(409, "중복된 User 입니다."),
 
     // 500 INTERNAL_SERVER_ERROR
     ENCODER_FAILED_ERROR(500, "암호화 실패했습니다. "),

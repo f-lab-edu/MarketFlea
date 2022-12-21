@@ -1,12 +1,14 @@
 package com.flab.marketflea.exception;
 
 
+import com.flab.marketflea.common.ErrorCode;
 import com.flab.marketflea.common.ErrorResponse;
 import com.flab.marketflea.exception.product.DuplicatedProductException;
 import com.flab.marketflea.exception.product.ProductNotFoundException;
 import com.flab.marketflea.exception.shop.DuplicatedShopException;
 import com.flab.marketflea.exception.shop.InValidStatusException;
 import com.flab.marketflea.exception.shop.ShopNotFoundException;
+import com.flab.marketflea.exception.user.DuplicatedUserException;
 import com.flab.marketflea.exception.user.EncoderNoSuchAlgorithmException;
 import com.flab.marketflea.exception.user.UserNotFoundException;
 import com.flab.marketflea.exception.user.WrongPasswordException;
@@ -20,8 +22,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-//    private ErrorCode errorCode;
-//    private ErrorResponse errorResponse;
+    private ErrorCode errorCode;
+    private ErrorResponse errorResponse;
 
     @ExceptionHandler(DuplicatedShopException.class)
     protected ResponseEntity<ErrorResponse> handleDuplicatedShopException(DuplicatedShopException e) {
@@ -78,4 +80,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(DuplicatedUserException.class)
+    public final ResponseEntity<ErrorResponse> handleDuplicatedUserException(
+        DuplicatedUserException e) {
+        log.debug("이미 존재하는 user 입니다.", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
 }
