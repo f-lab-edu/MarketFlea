@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class ProductResponse {
 
     private long id;

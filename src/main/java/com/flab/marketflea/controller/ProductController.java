@@ -5,12 +5,14 @@ import static com.flab.marketflea.common.ResponseEntityConstants.UNAUTHORIZED;
 
 import com.flab.marketflea.common.SessionService;
 import com.flab.marketflea.model.product.ProductRequest;
+import com.flab.marketflea.model.product.ProductResponse;
 import com.flab.marketflea.service.productservice.ProductService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,7 +33,7 @@ public class ProductController {
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<Void>  addProduct(@RequestBody @Valid ProductRequest requestDto) {
+    public ResponseEntity<Void> addProduct(@RequestBody @Valid ProductRequest requestDto) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
             return UNAUTHORIZED;
@@ -40,8 +42,19 @@ public class ProductController {
         return OK;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> getProductInfo(@PathVariable("id") long id) {
+        ProductResponse productResponse = productService.getProductInfo(id);
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        return ResponseEntity.ok(productResponse);
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable("id") long id, @Valid @RequestBody ProductRequest product) {
+    public ResponseEntity<Void> updateProduct(@PathVariable("id") long id,
+        @Valid @RequestBody ProductRequest product) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
             return UNAUTHORIZED;
@@ -53,7 +66,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") long id) {
         boolean isLoginUser = sessionService.isLoginUser();
-        if(!isLoginUser) {
+        if (!isLoginUser) {
             return UNAUTHORIZED;
         }
         productService.deleteProduct(id);

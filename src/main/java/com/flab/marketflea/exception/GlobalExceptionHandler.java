@@ -1,6 +1,7 @@
 package com.flab.marketflea.exception;
 
 
+import com.flab.marketflea.common.ErrorCode;
 import com.flab.marketflea.common.ErrorResponse;
 import com.flab.marketflea.exception.product.DuplicatedProductNameException;
 import com.flab.marketflea.exception.product.ProductNotFoundException;
@@ -20,8 +21,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-//    private ErrorCode errorCode;
-//    private ErrorResponse errorResponse;
+    private ErrorCode errorCode;
+    private ErrorResponse errorResponse;
 
     @ExceptionHandler(DuplicatedShopException.class)
     protected ResponseEntity<ErrorResponse> handleDuplicatedShopException(DuplicatedShopException e) {
@@ -64,9 +65,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+
     @ExceptionHandler(DuplicatedProductNameException.class)
     public final ResponseEntity<ErrorResponse> handleDuplicatedProductNameException(DuplicatedProductNameException e) {
-        log.debug("이미 존재하는 Product 이름입니다.", e);
+        log.debug("이미 존재하는 Product 입니다.", e);
         ErrorResponse response = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }

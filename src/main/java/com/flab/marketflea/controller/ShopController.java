@@ -66,7 +66,4 @@ public class ShopController {
         shopService.deleteShop(id);
         return OK;
     }
-
-
-
 }

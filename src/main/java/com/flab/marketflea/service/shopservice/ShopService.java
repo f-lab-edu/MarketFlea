@@ -4,6 +4,7 @@ import com.flab.marketflea.model.shop.ShopRequest;
 import com.flab.marketflea.model.shop.ShopResponse;
 
 public interface ShopService {
+
     void createShop(ShopRequest shop);
 
     boolean isShopExist(long shopId);
