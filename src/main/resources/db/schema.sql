@@ -30,3 +30,18 @@ CREATE TABLE shop
 
   PRIMARY KEY (id)
 );
+
+DROP TABLE IF EXISTS product;
+CREATE TABLE product
+(
+  id          BIGINT      NOT NULL AUTO_INCREMENT,
+  shopId      BIGINT      NOT NULL,
+  productName VARCHAR(48) NOT NULL,
+  category    VARCHAR(48) NOT NULL,
+  productQty  INTEGER     NOT NULL,
+  releaseDate DATETIME    NOT NULL,
+  createdAt   DATETIME    NOT NULL,
+  updatedAt   DATETIME    NOT NULL,
+
+  PRIMARY KEY (id)
+);
