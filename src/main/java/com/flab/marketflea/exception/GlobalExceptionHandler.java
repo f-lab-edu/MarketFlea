@@ -4,6 +4,7 @@ package com.flab.marketflea.exception;
 import com.flab.marketflea.common.ErrorCode;
 import com.flab.marketflea.common.ErrorResponse;
 import com.flab.marketflea.exception.product.DuplicatedProductNameException;
+import com.flab.marketflea.exception.product.ProductNotFoundException;
 import com.flab.marketflea.exception.shop.DuplicatedShopException;
 import com.flab.marketflea.exception.shop.InValidStatusException;
 import com.flab.marketflea.exception.shop.ShopNotFoundException;
@@ -64,9 +65,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+
     @ExceptionHandler(DuplicatedProductNameException.class)
-    public final ResponseEntity<ErrorResponse> handleDuplicatedProductException(DuplicatedProductNameException e) {
+    public final ResponseEntity<ErrorResponse> handleDuplicatedProductNameException(DuplicatedProductNameException e) {
         log.debug("이미 존재하는 Product 입니다.", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public final ResponseEntity<ErrorResponse> handleProductNotFoundException(ProductNotFoundException e) {
+        log.debug("해당 Product 를 찾을 수 없습니다.", e);
         ErrorResponse response = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }

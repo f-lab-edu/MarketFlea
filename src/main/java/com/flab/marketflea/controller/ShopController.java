@@ -47,8 +47,7 @@ public class ShopController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateShop(@PathVariable("id") long id,
-        @Valid @RequestBody ShopRequest shop) {
+    public ResponseEntity<Void> updateShop(@PathVariable("id") long id , @Valid @RequestBody ShopRequest shop) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
             return UNAUTHORIZED;
@@ -58,14 +57,13 @@ public class ShopController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) {
+    public ResponseEntity<Void> deleteShop(@PathVariable("id") long id ) {
 
         boolean isLoginUser = sessionService.isLoginUser();
-        if (!isLoginUser) {
+        if(!isLoginUser) {
             return UNAUTHORIZED;
         }
         shopService.deleteShop(id);
         return OK;
     }
-
 }

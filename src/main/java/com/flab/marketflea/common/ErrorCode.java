@@ -12,7 +12,6 @@ public enum ErrorCode {
     INVALID_SHOP_STATUS(400, "Shop 운영 상태를 확인해주세요."),
     WRONG_PASSWORD(400, "비밀번호를 확인해주세요. "),
 
-
     // 404 NOT_FOUND 잘못된 리소스 접근
     SHOP_NOT_FOUND (404, "해당 Shop 을 찾을 수 없습니다. "),
     USER_NOT_FOUND(404, "가입하지 않은 아이디거나, 잘못된 비밀번호 입니다."),

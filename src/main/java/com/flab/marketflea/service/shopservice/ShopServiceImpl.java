@@ -25,22 +25,24 @@ public class ShopServiceImpl implements ShopService {
     public void createShop(ShopRequest shop) {
 
         Shop createdShop = Shop.builder()
-                .shopName(shop.getShopName())
-                .shopPhone(shop.getShopPhone())
-                .status(Shop.ShopStatus.REQUEST)
-                .shopOpenTime(shop.getShopOpenTime())
-                .shopCloseTime(shop.getShopCloseTime())
-                .createdAt(shop.getCreatedAt())
-                .updatedAt(shop.getUpdatedAt())
-                .build();
+            .shopName(shop.getShopName())
+            .shopPhone(shop.getShopPhone())
+            .status(Shop.ShopStatus.REQUEST)
+            .shopOpenTime(shop.getShopOpenTime())
+            .shopCloseTime(shop.getShopCloseTime())
+            .createdAt(shop.getCreatedAt())
+            .updatedAt(shop.getUpdatedAt())
+            .build();
 
         shopMapper.createShop(createdShop);
     }
 
     @Override
     public boolean isShopExist(long shopId) {
-        if(shopMapper.isShopExist(shopId))
-            throw new DuplicatedShopException("DuplicatedShopException", ErrorCode.EMAIL_DUPLICATION);
+        if (shopMapper.isShopExist(shopId)) {
+            throw new DuplicatedShopException("DuplicatedShopException",
+                ErrorCode.EMAIL_DUPLICATION);
+        }
         return false;
     }
 
@@ -54,8 +56,10 @@ public class ShopServiceImpl implements ShopService {
     @Transactional
     public void updateShop(long id, ShopRequest shop) {
         Shop.ShopStatus shopStatus = getShopByShopId(id).getStatus();
-        if (shopStatus == Shop.ShopStatus.REQUEST || shopStatus == Shop.ShopStatus.OPEN)
-            throw new InValidStatusException("InValidStatusException", ErrorCode.INVALID_SHOP_STATUS);
+        if (shopStatus == Shop.ShopStatus.REQUEST || shopStatus == Shop.ShopStatus.OPEN) {
+            throw new InValidStatusException("InValidStatusException",
+                ErrorCode.INVALID_SHOP_STATUS);
+        }
         shopMapper.updateShop(shop.toEntity(id));
     }
 
@@ -66,6 +70,5 @@ public class ShopServiceImpl implements ShopService {
             throw new ShopNotFoundException("ShopNotFoundException", ErrorCode.SHOP_NOT_FOUND);
         }
         shopMapper.deleteShop(id);
-
     }
 }

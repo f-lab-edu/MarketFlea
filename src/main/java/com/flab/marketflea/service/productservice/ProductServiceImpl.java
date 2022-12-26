@@ -8,6 +8,7 @@ import com.flab.marketflea.model.product.ProductResponse;
 import com.flab.marketflea.model.product.ProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -20,7 +21,7 @@ public class ProductServiceImpl implements ProductService{
     public void addProduct(ProductRequest requestDto) {
         if(productMapper.checkDuplicateProductName(requestDto.getProductName()))
             throw new  DuplicatedProductNameException("DuplicatedProductNameException", ErrorCode.PRODUCT_DUPLICATION);
-        productMapper.addItem(requestDto);
+        productMapper.addProduct(requestDto);
     }
 
     @Override
@@ -28,5 +29,25 @@ public class ProductServiceImpl implements ProductService{
         if(!productMapper.isProductExist(id))
             throw new ProductNotFoundException("ProductNotFoundException", ErrorCode.PRODUCT_NOT_FOUND);
         return productMapper.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public void updateProduct(long id, ProductRequest product) {
+        if (productMapper.checkDuplicateProductName(product.getProductName())) {
+            throw new DuplicatedProductNameException("DuplicatedProductNameException",
+                ErrorCode.PRODUCT_DUPLICATION);
+        }
+        productMapper.updateProduct(product.toEntity(id));
+    }
+
+    @Override
+    @Transactional
+    public void deleteProduct(long id) {
+        if (productMapper.findById(id) == null) {
+            throw new ProductNotFoundException("ProductNotFoundException",
+                ErrorCode.PRODUCT_NOT_FOUND);
+        }
+        productMapper.deleteProduct(id);
     }
 }
