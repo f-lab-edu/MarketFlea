@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-//    private ErrorCode errorCode;
-//    private ErrorResponse errorResponse;
-
     @ExceptionHandler(DuplicatedShopException.class)
     protected ResponseEntity<ErrorResponse> handleDuplicatedShopException(DuplicatedShopException e) {
         log.debug("이미 존재하는 Shop 입니다.", e);

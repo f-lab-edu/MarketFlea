@@ -41,13 +41,14 @@ public class ProductController {
         boolean isIdDuplicated = productService.isProductExist(id);
         if (isIdDuplicated) {
             return CONFLICT;
-        } else {
-            return OK;
         }
+        return OK;
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable("id") long id, @Valid @RequestBody ProductRequest product) {
+    public ResponseEntity<Void> updateProduct(@PathVariable("id") long id,
+        @Valid @RequestBody ProductRequest product) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
             return UNAUTHORIZED;
@@ -57,10 +58,11 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") long id, @RequestBody ProductRequest product) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") long id,
+        @RequestBody ProductRequest product) {
 
         boolean isLoginUser = sessionService.isLoginUser();
-        if(!isLoginUser) {
+        if (!isLoginUser) {
             return UNAUTHORIZED;
         }
         productService.deleteProduct(id, product);
