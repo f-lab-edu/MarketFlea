@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SessionLoginService implements LoginService {
 
-    public static final String ROLE_KEY = "role";
+
     private static final String LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID";
     private final HttpSession httpSession;
 
@@ -54,11 +54,9 @@ public class SessionLoginService implements LoginService {
         return (String) httpSession.getAttribute(LOGIN_MEMBER_ID);
     }
 
-
     private boolean isSeller(Role role) {
         return role.equals(Role.SELLER);
     }
-
 
     @Override
     public void logout() {
@@ -66,16 +64,6 @@ public class SessionLoginService implements LoginService {
     }
 }
 
-//    @Override
-//    public String login(String userId, String password) {
-//
-//        User matchMember = userMapper.getUserById(userId);
-//        if (matchMember == null || !passwordEncoder.matches(password, matchMember.getPassword())) {
-//            throw new UserNotFoundException("UserNotFoundException", ErrorCode.USER_NOT_FOUND);
-//        }
-//        sessionService.setLoginMemberId(matchMember.getUserId());
-//        return null;
-//    }
 
 
 

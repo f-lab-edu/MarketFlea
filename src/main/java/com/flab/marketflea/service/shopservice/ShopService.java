@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ShopService {
+
     void createShop(ShopRequest shop);
 
     boolean isShopExist(long shopId);
@@ -14,6 +15,6 @@ public interface ShopService {
 
     void updateShop(long id, ShopRequest shop);
 
-    void deleteShop(long id, ShopRequest shopRequest);
+    void deleteShop(long id, ShopRequest shop);
 
 }

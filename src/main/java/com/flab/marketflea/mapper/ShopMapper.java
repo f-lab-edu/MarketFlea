@@ -20,4 +20,5 @@ public interface ShopMapper {
     void deleteShop(long shopId, ShopRequest shopRequest);
 
     void updateShopStatus(@Param("id") long id, @Param("status") ShopStatus status);
+
 }
