@@ -12,6 +12,7 @@ import com.flab.marketflea.model.seller.SellerRequest;
 import com.flab.marketflea.model.seller.UpdatePasswordSeller;
 import com.flab.marketflea.service.loginservice.LoginService;
 import com.flab.marketflea.service.loginservice.sellerservice.SellerService;
+import com.flab.marketflea.service.userservice.command.UserLoginCommand;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -54,7 +55,7 @@ public class SellerController {
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping("/login")
     public void login(@RequestBody SellerLoginRequest sellerLoginRequest) {
-        loginService.authenticate(sellerLoginRequest);
+        loginService.authenticate(new UserLoginCommand(sellerLoginRequest.getUserId(), sellerLoginRequest.getPassword(), sellerLoginRequest.getRole()));
     }
 
     @PostMapping("/logout")

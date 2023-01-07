@@ -1,6 +1,8 @@
 package com.flab.marketflea.model.user;
 
+import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginUser {
+public class UserInfoRequest {
 
     @NotBlank(message = "아이디는 필수 입력 값입니다.")
     private String userId;
@@ -20,5 +22,24 @@ public class LoginUser {
     @NotBlank(message = "비밀번호를 입력해주세요.")
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호는 8~16자 영문, 숫자, 특수문자를 사용하세요.")
     private String password;
+
+    @NotBlank(message = "이름은 필수 입력 값입니다.")
+    private String name;
+
+    @NotNull(message = "role 을 입력해주세요.")
+    private Role role;
+
+    @NotBlank(message = "전화번호는 필수 입력 값입니다.")
+    private String phone;
+
+    @NotBlank(message = "이메일은 필수 입력 값입니다.")
+    private String email;
+
+    @NotBlank(message = "주소는 필수 입력 값입니다.")
+    private String address;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
 }

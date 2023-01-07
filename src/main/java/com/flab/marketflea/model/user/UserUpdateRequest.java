@@ -1,5 +1,6 @@
 package com.flab.marketflea.model.user;
 
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,26 +12,20 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+public class UserUpdateRequest {
 
-public class User {
 
+    @NotBlank(message = "아이디는 필수 입력 값입니다.")
     private String userId;
-
-    private String password;
 
     private String name;
 
-    private Role role;
-
     private String phone;
-
-    private String email;
 
     private String address;
 
-    private LocalDateTime createdAt;
+    private String email;
 
     private LocalDateTime updatedAt;
 
 }
-

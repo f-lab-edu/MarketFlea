@@ -1,16 +1,20 @@
 package com.flab.marketflea.service.userservice;
 
 import com.flab.marketflea.common.ErrorCode;
+import com.flab.marketflea.exception.user.DuplicatedUserException;
 import com.flab.marketflea.exception.user.UserNotFoundException;
 import com.flab.marketflea.exception.user.WrongPasswordException;
 import com.flab.marketflea.mapper.UserMapper;
+import com.flab.marketflea.mapper.param.UserInfoParam;
+import com.flab.marketflea.mapper.param.UserLoginParam;
 import com.flab.marketflea.mapper.param.UserPasswordUpdateParam;
-import com.flab.marketflea.model.user.LoginUser;
-import com.flab.marketflea.model.user.UpdateUser;
-import com.flab.marketflea.model.user.UpdateUserInfo;
-import com.flab.marketflea.model.user.User;
+import com.flab.marketflea.mapper.param.UserUpdateParam;
+import com.flab.marketflea.model.user.UserInfoRequest;
 import com.flab.marketflea.security.PasswordEncoder;
+import com.flab.marketflea.service.userservice.command.UserInfoCommand;
+import com.flab.marketflea.service.userservice.command.UserLoginCommand;
 import com.flab.marketflea.service.userservice.command.UserPasswordUpdateCommand;
+import com.flab.marketflea.service.userservice.command.UserUpdateCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,46 +27,45 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public void signUp(User user) {
-        User encryptedUser = User.builder()
-            .userId(user.getUserId())
-            .name(user.getName())
-            .role(user.getRole())
-            .phone(user.getPhone())
-            .email(user.getEmail())
-            .address(user.getAddress())
-            .password(passwordEncoder.encrypt(user.getPassword()))
+    @Transactional
+    public void signUp(UserInfoCommand command) {
+        UserInfoParam param = UserInfoParam.builder()
+            .userId(command.getUserId())
+            .name(command.getName())
+            .role(command.getRole())
+            .phone(command.getPhone())
+            .email(command.getEmail())
+            .address(command.getAddress())
+            .password(passwordEncoder.encrypt(command.getPassword()))
             .build();
-
-        userMapper.signUpUser(encryptedUser);
+        if(isIdExist(command.getUserId()))
+            throw new DuplicatedUserException("DuplicatedUserException", ErrorCode.USER_DUPLICATION);
+        userMapper.signUpUser(param);
     }
 
     public boolean isIdExist(String userId) {
         return userMapper.isIdExist(userId);
     }
 
-    public User getByIdAndPw(String userId, String password) {
-        User user = userMapper.findByIdAndPassword(userId, passwordEncoder.encrypt(password));
-        if (!isIdExist(userId)) {
+    public UserInfoRequest getUserById(UserLoginCommand command) {
+        if (!isIdExist(command.getUserId())) {
             throw new UserNotFoundException("UserNotFoundException", ErrorCode.USER_NOT_FOUND);
         }
-        return user;
+        return userMapper.getUserById(command.getUserId());
     }
 
     @Transactional
-    public void update(UpdateUser updateUser) {
-
-        UpdateUserInfo changedUser = UpdateUserInfo.builder()
-            .userId(updateUser.getUserId())
-            .name(updateUser.getName())
-            .phone(updateUser.getPhone())
-            .email(updateUser.getEmail())
-            .address(updateUser.getAddress())
-            .updatedAt(updateUser.getUpdatedAt())
+    public void update(UserUpdateCommand command) {
+        UserUpdateParam param = UserUpdateParam
+            .builder()
+            .userId(command.getUserId())
+            .name(command.getName())
+            .phone(command.getPhone())
+            .email(command.getEmail())
+            .address(command.getAddress())
+            .updatedAt(command.getUpdatedAt())
             .build();
-
-        userMapper.updateUser(changedUser);
-
+        userMapper.updateUser(param);
     }
 
     @Transactional
@@ -76,20 +79,20 @@ public class UserService {
 
     }
 
-    public void deleteUser(LoginUser loginUser) {
+    @Transactional
+    public void deleteUser(UserLoginCommand command) {
+        UserLoginParam param = UserLoginParam
+            .builder()
+            .userId(command.getUserId())
+            .password(passwordEncoder.encrypt(command.getPassword()))
+            .build();
 
-        LoginUser encodeUser = LoginUser.builder()
-                .userId(loginUser.getUserId())
-                .password(passwordEncoder.encrypt(loginUser.getPassword()))
-                .build();
-
-        boolean isValidPassword = passwordEncoder.matches(loginUser.getPassword(), userMapper.getUserById(loginUser.getUserId()).getPassword());
-
+        boolean isValidPassword = passwordEncoder.matches(command.getPassword(),
+            userMapper.getUserById(command.getUserId()).getPassword());
         if (!isValidPassword) {
             throw new WrongPasswordException("WrongPasswordException", ErrorCode.WRONG_PASSWORD);
         }
-
-        userMapper.deleteUser(encodeUser);
+        userMapper.deleteUser(param);
 
     }
 }
