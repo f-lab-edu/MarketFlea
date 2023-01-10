@@ -6,5 +6,4 @@ public interface ShopAdminService {
     void reject(long id);
     void open(long id);
     void close(long id);
-
 }
