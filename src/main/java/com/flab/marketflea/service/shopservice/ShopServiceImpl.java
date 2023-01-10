@@ -6,6 +6,7 @@ import com.flab.marketflea.exception.shop.InValidStatusException;
 import com.flab.marketflea.exception.shop.ShopNotFoundException;
 import com.flab.marketflea.mapper.ShopMapper;
 import com.flab.marketflea.model.shop.Shop;
+import com.flab.marketflea.model.shop.Shop.ShopStatus;
 import com.flab.marketflea.model.shop.ShopRequest;
 import com.flab.marketflea.model.shop.ShopResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class ShopServiceImpl implements ShopService {
         Shop createdShop = Shop.builder()
             .shopName(shop.getShopName())
             .shopPhone(shop.getShopPhone())
-            .status(Shop.ShopStatus.REQUEST)
+            .status(Shop.ShopStatus.REQUESTED)
             .shopOpenTime(shop.getShopOpenTime())
             .shopCloseTime(shop.getShopCloseTime())
             .createdAt(shop.getCreatedAt())
@@ -40,23 +41,22 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public boolean isShopExist(long shopId) {
         if (shopMapper.isShopExist(shopId)) {
-            throw new DuplicatedShopException("DuplicatedShopException",
-                ErrorCode.EMAIL_DUPLICATION);
+            throw new DuplicatedShopException("DuplicatedShopException", ErrorCode.EMAIL_DUPLICATION);
         }
         return false;
     }
 
     @Override
     public ShopResponse getShopByShopId(long shopId) {
-        return shopMapper.getShopByShopId(shopId);
+        ShopResponse shop = shopMapper.getShopByShopId(shopId);
+        return shop;
     }
-
 
     @Override
     @Transactional
     public void updateShop(long id, ShopRequest shop) {
         Shop.ShopStatus shopStatus = getShopByShopId(id).getStatus();
-        if (shopStatus == Shop.ShopStatus.REQUEST || shopStatus == Shop.ShopStatus.OPEN) {
+        if (shopStatus == ShopStatus.REQUESTED || shopStatus == Shop.ShopStatus.OPENED) {
             throw new InValidStatusException("InValidStatusException",
                 ErrorCode.INVALID_SHOP_STATUS);
         }
@@ -65,10 +65,10 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     @Transactional
-    public void deleteShop(long id) {
+    public void deleteShop(long id, ShopRequest shop) {
         if (!shopMapper.isShopExist(id)) {
             throw new ShopNotFoundException("ShopNotFoundException", ErrorCode.SHOP_NOT_FOUND);
         }
-        shopMapper.deleteShop(id);
+        shopMapper.deleteShop(id,shop);
     }
 }

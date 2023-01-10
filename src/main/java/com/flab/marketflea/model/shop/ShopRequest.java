@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ShopRequest {
 
+    private long id;
     @NotBlank(message = "SHOP 이름을 입력해주세요.")
     private String shopName;
 

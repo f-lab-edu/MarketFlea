@@ -1,13 +1,13 @@
 package com.flab.marketflea.model.shop;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
 public class Shop {
 
     public enum ShopStatus{
-        REQUEST,
-        APPROVE,
-        REJECT,
-        OPEN,
-        CLOSE
+        REQUESTED,
+        APPROVED,
+        REJECTED,
+        OPENED,
+        CLOSED
     }
 
     @NotNull(message = "필수 입력값 입니다.")
@@ -46,6 +46,5 @@ public class Shop {
     @NotNull(message = "종료 날짜와 시간을 입력해주세요.")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime shopCloseTime;
-
 
 }
