@@ -6,10 +6,12 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductResponse {
 
     private long id;
