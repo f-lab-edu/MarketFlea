@@ -19,42 +19,43 @@ public class ShopAdminServiceImpl implements ShopAdminService {
     @Override
     public void approve(long id) {
         ShopResponse shop = shopMapper.getShopByShopId(id);
-        System.out.println(shop.getStatus());
-        if (shop.getStatus() == ShopStatus.REQUESTED
-            || shop.getStatus() == Shop.ShopStatus.REJECTED) {
-            shopMapper.updateShopStatus(id, ShopStatus.APPROVED);
-        } else {
-            throw new InValidStatusException("InValidStatusException", ErrorCode.INVALID_SHOP_STATUS);
+        if (shop.getStatus() != ShopStatus.REQUESTED
+            || shop.getStatus() != Shop.ShopStatus.REJECTED) {
+            throw new InValidStatusException("InValidStatusException",
+                ErrorCode.INVALID_SHOP_STATUS);
         }
+        shopMapper.updateShopStatus(id, ShopStatus.APPROVED);
     }
+
 
     @Override
     public void reject(long id) {
         ShopResponse shop = shopMapper.getShopByShopId(id);
-        if (shop.getStatus() == ShopStatus.REQUESTED) {
-            shopMapper.updateShopStatus(id, ShopStatus.REJECTED);
-        } else {
-            throw new InValidStatusException("InValidStatusException", ErrorCode.INVALID_SHOP_STATUS);
+        if (shop.getStatus() != ShopStatus.REQUESTED) {
+            throw new InValidStatusException("InValidStatusException",
+                ErrorCode.INVALID_SHOP_STATUS);
         }
+        shopMapper.updateShopStatus(id, ShopStatus.REJECTED);
     }
 
     @Override
     public void open(long id) {
         ShopResponse shop = shopMapper.getShopByShopId(id);
-        if (shop.getStatus() == ShopStatus.APPROVED) {
-            shopMapper.updateShopStatus(id, ShopStatus.OPENED);
-        } else {
-            throw new InValidStatusException("InValidStatusException", ErrorCode.INVALID_SHOP_STATUS);
+        if (shop.getStatus() != ShopStatus.APPROVED) {
+            throw new InValidStatusException("InValidStatusException",
+                ErrorCode.INVALID_SHOP_STATUS);
         }
+        shopMapper.updateShopStatus(id, ShopStatus.OPENED);
     }
+
 
     @Override
     public void close(long id) {
         ShopResponse shop = shopMapper.getShopByShopId(id);
-        if (shop.getStatus() == ShopStatus.OPENED) {
-            shopMapper.updateShopStatus(id, ShopStatus.CLOSED);
-        } else {
-            throw new InValidStatusException("InValidStatusException", ErrorCode.INVALID_SHOP_STATUS);
+        if (shop.getStatus() != ShopStatus.OPENED) {
+            throw new InValidStatusException("InValidStatusException",
+                ErrorCode.INVALID_SHOP_STATUS);
         }
+        shopMapper.updateShopStatus(id, ShopStatus.CLOSED);
     }
 }

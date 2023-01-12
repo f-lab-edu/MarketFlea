@@ -45,8 +45,7 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public boolean isShopExist(long shopId) {
         if (shopMapper.isShopExist(shopId)) {
-            throw new DuplicatedShopException("DuplicatedShopException",
-                ErrorCode.EMAIL_DUPLICATION);
+            throw new DuplicatedShopException("DuplicatedShopException", ErrorCode.EMAIL_DUPLICATION);
         }
         if (shopMapper.isShopExist(shopId)) {
             throw new DuplicatedShopException("DuplicatedShopException",
@@ -57,9 +56,9 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public ShopResponse getShopByShopId(long shopId) {
-        return shopMapper.getShopByShopId(shopId);
+        ShopResponse shop = shopMapper.getShopByShopId(shopId);
+        return shop;
     }
-
 
     @Override
     @Transactional
@@ -78,7 +77,7 @@ public class ShopServiceImpl implements ShopService {
         if (!shopMapper.isShopExist(id)) {
             throw new ShopNotFoundException("ShopNotFoundException", ErrorCode.SHOP_NOT_FOUND);
         }
-        shopMapper.deleteShop(id, shop);
+        shopMapper.deleteShop(id,shop);
     }
 
 }
