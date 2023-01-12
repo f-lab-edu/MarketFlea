@@ -1,11 +1,11 @@
 package com.flab.marketflea.controller;
 
-import static com.flab.marketflea.common.ResponseEntityConstants.CONFLICT;
 import static com.flab.marketflea.common.ResponseEntityConstants.OK;
 import static com.flab.marketflea.common.ResponseEntityConstants.UNAUTHORIZED;
 
 import com.flab.marketflea.common.SessionService;
 import com.flab.marketflea.model.product.ProductRequest;
+import com.flab.marketflea.model.product.ProductResponse;
 import com.flab.marketflea.service.productservice.ProductService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,24 +30,31 @@ public class ProductController {
     private final ProductService productService;
     private final SessionService sessionService;
 
+
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void addItem(@RequestBody @Valid ProductRequest requestDto) {
-        productService.addItem(requestDto);
+    public ResponseEntity<Void> addProduct(@RequestBody @Valid ProductRequest requestDto) {
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        productService.addProduct(requestDto);
+        return OK;
     }
 
-    @GetMapping("/{id}/duplicate")
-    public ResponseEntity<Void> isIdDuplicated(@PathVariable long id) {
-        boolean isIdDuplicated = productService.isProductExist(id);
-        if (isIdDuplicated) {
-            return CONFLICT;
-        } else {
-            return OK;
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> getProductInfo(@PathVariable("id") long id) {
+        ProductResponse productResponse = productService.getProductInfo(id);
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
         }
+        return ResponseEntity.ok(productResponse);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable("id") long id, @Valid @RequestBody ProductRequest product) {
+    public ResponseEntity<Void> updateProduct(@PathVariable("id") long id,
+        @Valid @RequestBody ProductRequest product) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
             return UNAUTHORIZED;
@@ -57,13 +64,12 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") long id, @RequestBody ProductRequest product) {
-
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") long id) {
         boolean isLoginUser = sessionService.isLoginUser();
-        if(!isLoginUser) {
+        if (!isLoginUser) {
             return UNAUTHORIZED;
         }
-        productService.deleteProduct(id, product);
+        productService.deleteProduct(id);
         return OK;
     }
 

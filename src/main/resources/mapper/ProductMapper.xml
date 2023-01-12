@@ -3,18 +3,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.flab.marketflea.mapper.ProductMapper">
-    <insert id="addItem" parameterType="com.flab.marketflea.model.product.ProductRequest">
+    <insert id="addProduct" parameterType="com.flab.marketflea.model.product.ProductRequest">
         INSERT
         INTO product(shopId, productName, category, productQty, price, releaseDate, createdAt, updatedAt)
         VALUES (#{shopId}, #{productName}, #{category}, #{productQty}, #{price}, #{releaseDate}, now(), now())
     </insert>
 
-    <select id="isProductExist" resultType="boolean">
-        SELECT EXISTS(SELECT * FROM product WHERE id = #{id})
-    </select>
-
-    <select id="getProductById" resultType="com.flab.marketflea.model.product.ProductResponse">
-        SELECT id, shopId, productName, category, productQty, price, releaseDate, createdAt, updatedAt
+    <select id="findById" resultType="com.flab.marketflea.model.product.ProductResponse">
+        SELECT id, productName, shopId, productName, category, productQty, price, releaseDate, createdAt, updatedAt
         FROM product
         WHERE id = #{id}
     </select>
@@ -25,8 +21,22 @@
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteProduct" parameterType="com.flab.marketflea.model.product.Product">
-        DELETE FROM product
+    <select id="checkDuplicateProductName" resultType="boolean">
+        SELECT EXISTS(SELECT * FROM product WHERE productName = #{productName})
+    </select>
+
+    <select id="isProductExist" resultType="boolean">
+        SELECT EXISTS(SELECT * FROM product WHERE id = #{id})
+    </select>
+    
+    <update id="updateProduct" parameterType="com.flab.marketflea.model.product.Product">
+        UPDATE product
+        SET ProductName = #{productName}, category = #{category}, productQty = #{productQty}, price = #{price}, releaseDate = #{releaseDate}
         WHERE id = #{id}
+    </update>
+
+   <delete id="deleteProduct" parameterType="com.flab.marketflea.model.product.Product">
+      DELETE FROM product
+      WHERE id = #{id}
     </delete>
 </mapper>
