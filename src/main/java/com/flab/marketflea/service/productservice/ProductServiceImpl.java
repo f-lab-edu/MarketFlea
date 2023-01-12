@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService{
     private final ShopService shopService;
 
     @Override
-    public void addItem(ProductRequest requestDto) {
+    public void addProduct(ProductRequest requestDto) {
         productMapper.addItem(requestDto);
     }
 

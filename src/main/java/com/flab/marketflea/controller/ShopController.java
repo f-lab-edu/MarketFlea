@@ -41,10 +41,10 @@ public class ShopController {
         boolean isIdDuplicated = shopService.isShopExist(shopId);
         if (isIdDuplicated) {
             return CONFLICT;
-        } else {
-            return OK;
         }
+        return OK;
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateShop(@PathVariable("id") long id,
