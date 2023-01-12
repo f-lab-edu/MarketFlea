@@ -4,7 +4,7 @@ import com.flab.marketflea.common.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class ProductNotFoundException extends IllegalArgumentException {
+public class ProductNotFoundException extends RuntimeException {
 
     private ErrorCode errorCode;
 
@@ -13,3 +13,4 @@ public class ProductNotFoundException extends IllegalArgumentException {
         this.errorCode = errorCode;
     }
 }
+

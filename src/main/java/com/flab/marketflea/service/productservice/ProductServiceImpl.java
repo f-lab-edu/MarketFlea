@@ -21,7 +21,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void addProduct(ProductRequest requestDto) {
-        productMapper.addItem(requestDto);
+        productMapper.addProduct(requestDto);
     }
 
     @Override
@@ -44,7 +44,15 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     @Transactional
-    public void deleteProduct(long id, ProductRequest product) {
+    public ProductResponse getProductInfo(long id) {
+        if(!productMapper.isProductExist(id))
+            throw new ProductNotFoundException("ProductNotFoundException", ErrorCode.PRODUCT_NOT_FOUND);
+        return productMapper.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteProduct(long id) {
         if (!productMapper.isProductExist(id)) {
             throw new ProductNotFoundException("ProductNotFoundException", ErrorCode.PRODUCT_NOT_FOUND);
         }

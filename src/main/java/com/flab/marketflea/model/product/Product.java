@@ -1,14 +1,15 @@
 package com.flab.marketflea.model.product;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Builder
@@ -16,25 +17,27 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Product {
 
-    @NotNull(message = "필수 입력값 입니다.")
+    @NotNull
     private long id;
 
-    @NotNull(message = "필수 입력값 입니다.")
+    @NotNull
     private long shopId;
 
-    @NotBlank(message = "필수 입력값 입니다.")
+    @Length(max = 45)
+    @NotBlank(message = "상품명을 입력해주세요.")
     private String productName;
 
-    @NotBlank(message = "필수 입력값 입니다.")
+    @NotNull(message = "카테고리를 등록해주세요.")
     private Category category;
 
-    @NotNull(message = "필수 입력값 입니다.")
+    @NotNull(message = "상품 수량을 입력해주세요.")
     private int productQty;
 
-    @NotNull(message = "필수 입력값 입니다.")
+    @NotNull(message = "가격을 입력해주세요.")
     private int price;
 
-    @NotNull(message = "필수 입력값 입니다.")
+    @NotNull(message = "샵 오픈 날짜를 입력해주세요.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
 
     private LocalDateTime createdAt;

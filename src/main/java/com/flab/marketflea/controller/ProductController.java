@@ -6,6 +6,7 @@ import static com.flab.marketflea.common.ResponseEntityConstants.UNAUTHORIZED;
 
 import com.flab.marketflea.common.SessionService;
 import com.flab.marketflea.model.product.ProductRequest;
+import com.flab.marketflea.model.product.ProductResponse;
 import com.flab.marketflea.service.productservice.ProductService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,16 @@ public class ProductController {
         return OK;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> getProductInfo(@PathVariable("id") long id) {
+        ProductResponse productResponse = productService.getProductInfo(id);
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (!isLoginUser) {
+            return UNAUTHORIZED;
+        }
+        return ResponseEntity.ok(productResponse);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateProduct(@PathVariable("id") long id,
@@ -63,13 +74,12 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") long id,
-        @RequestBody ProductRequest product) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") long id) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
             return UNAUTHORIZED;
         }
-        productService.deleteProduct(id, product);
+        productService.deleteProduct(id);
         return OK;
     }
 
