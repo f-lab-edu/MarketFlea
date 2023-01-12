@@ -31,7 +31,7 @@ public class ShopController {
     private final SessionService sessionService;
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    @PostMapping("shops")
+    @PostMapping
     public void crateShop(@RequestBody ShopRequest shop) {
         shopService.createShop(shop);
     }
@@ -47,7 +47,8 @@ public class ShopController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateShop(@PathVariable("id") long id , @Valid @RequestBody ShopRequest shop) {
+    public ResponseEntity<Void> updateShop(@PathVariable("id") long id,
+        @Valid @RequestBody ShopRequest shop) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
             return UNAUTHORIZED;
@@ -57,13 +58,13 @@ public class ShopController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteShop(@PathVariable("id") long id ) {
+    public ResponseEntity<Void> deleteShop(@PathVariable("id") long id, ShopRequest shopRequest) {
 
         boolean isLoginUser = sessionService.isLoginUser();
-        if(!isLoginUser) {
+        if (!isLoginUser) {
             return UNAUTHORIZED;
         }
-        shopService.deleteShop(id);
+        shopService.deleteShop(id, shopRequest);
         return OK;
     }
 }

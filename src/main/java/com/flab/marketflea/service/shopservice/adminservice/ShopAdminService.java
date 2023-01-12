@@ -1,18 +1,9 @@
 package com.flab.marketflea.service.shopservice.adminservice;
 
-import com.flab.marketflea.model.shop.ShopResponse;
-import org.springframework.stereotype.Service;
+public interface ShopAdminService {
 
-@Service
-public class ShopAdminService {
-
-    public void changeShopStatus(ShopResponse shop) {
-
-        /*
-        구현 예정
-         */
-
-
-    }
-
+    void approve(long id);
+    void reject(long id);
+    void open(long id);
+    void close(long id);
 }
