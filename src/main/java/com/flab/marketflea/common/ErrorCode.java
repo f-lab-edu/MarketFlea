@@ -18,6 +18,7 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND(404, "해당 Product 를 찾을 수 없습니다."),
 
     // 409 CONFLICT 중복된 리소스
+    USER_DUPLICATION(409, "중복된 User 입니다."),
     EMAIL_DUPLICATION(409, "중복된 Email 입니다."),
     SHOP_DUPLICATION(409, "중복된 Shop 입니다."),
     PRODUCT_DUPLICATION(409, "중복된 item 입니다."),

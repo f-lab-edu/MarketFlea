@@ -9,6 +9,7 @@ import com.flab.marketflea.model.shop.Shop;
 import com.flab.marketflea.model.shop.Shop.ShopStatus;
 import com.flab.marketflea.model.shop.ShopRequest;
 import com.flab.marketflea.model.shop.ShopResponse;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,12 @@ public class ShopServiceImpl implements ShopService {
 
     private final ShopMapper shopMapper;
 
+
     @Override
     public void createShop(ShopRequest shop) {
 
         Shop createdShop = Shop.builder()
+            .id(0)
             .shopName(shop.getShopName())
             .shopPhone(shop.getShopPhone())
             .status(Shop.ShopStatus.REQUESTED)
@@ -38,10 +41,15 @@ public class ShopServiceImpl implements ShopService {
         shopMapper.createShop(createdShop);
     }
 
+
     @Override
     public boolean isShopExist(long shopId) {
         if (shopMapper.isShopExist(shopId)) {
             throw new DuplicatedShopException("DuplicatedShopException", ErrorCode.EMAIL_DUPLICATION);
+        }
+        if (shopMapper.isShopExist(shopId)) {
+            throw new DuplicatedShopException("DuplicatedShopException",
+                ErrorCode.EMAIL_DUPLICATION);
         }
         return false;
     }
@@ -71,4 +79,5 @@ public class ShopServiceImpl implements ShopService {
         }
         shopMapper.deleteShop(id,shop);
     }
+
 }

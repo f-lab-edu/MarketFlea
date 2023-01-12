@@ -1,12 +1,12 @@
 package com.flab.marketflea.service.loginservice;
 
 
-import com.flab.marketflea.common.ErrorCode;
 import com.flab.marketflea.common.SessionService;
-import com.flab.marketflea.exception.user.UserNotFoundException;
-import com.flab.marketflea.model.user.User;
-import com.flab.marketflea.mapper.UserMapper;
-import com.flab.marketflea.security.PasswordEncoder;
+import com.flab.marketflea.model.request.LoginRequest;
+import com.flab.marketflea.model.user.Role;
+import com.flab.marketflea.service.loginservice.sellerservice.SellerService;
+import com.flab.marketflea.service.userservice.UserService;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,25 +17,53 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SessionLoginService implements LoginService {
 
+
+    private static final String LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID";
+    private final HttpSession httpSession;
+
     private final SessionService sessionService;
-    private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
+    private final SellerService sellerService;
+    private final UserService userService;
 
     @Override
-    public String login(String userId, String password) {
-
-        User matchMember = userMapper.getUserById(userId);
-        if (matchMember == null || !passwordEncoder.matches(password, matchMember.getPassword())) {
-            throw new UserNotFoundException("UserNotFoundException", ErrorCode.USER_NOT_FOUND);
+    public void authenticate(LoginRequest loginRequest) {
+        String userId = loginRequest.getUserId();
+        String password = loginRequest.getPassword();
+        Role role = loginRequest.getRole();
+        if (isSeller(role)) {
+            sellerService.getByIdAndPw(userId, password);
+        } else {
+            userService.getByIdAndPw(userId, password);
         }
-        sessionService.setLoginMemberId(matchMember.getUserId());
-        return null;
+        httpSession.setAttribute("LOGIN_MEMBER_ID", userId);
+        httpSession.setAttribute("ROLE_KEY", role);
+    }
+
+    @Override
+    public void deauthenticate() {
+        httpSession.invalidate();
+    }
+
+    @Override
+    public boolean isValidAuthentication() {
+        return httpSession.getAttribute(LOGIN_MEMBER_ID) != null;
+    }
+
+    @Override
+    public String getAuthenticatedUserId() {
+        return (String) httpSession.getAttribute(LOGIN_MEMBER_ID);
+    }
+
+    private boolean isSeller(Role role) {
+        return role.equals(Role.SELLER);
     }
 
     @Override
     public void logout() {
         sessionService.deleteLoginMemberId();
     }
-
-
 }
+
+
+
+

@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class UpdateUser {
 
     @NotBlank(message = "아이디는 필수 입력 값입니다.")

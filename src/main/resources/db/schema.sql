@@ -45,3 +45,21 @@ CREATE TABLE product
 
   PRIMARY KEY (id)
 );
+
+DROP TABLE IF EXISTS seller;
+CREATE TABLE seller
+(
+  id        INTEGER      NOT NULL AUTO_INCREMENT,
+  userId    VARCHAR(32)  NOT NULL,
+  password  VARCHAR(100) NOT NULL,
+  name      VARCHAR(32)  NOT NULL,
+  shopName  VARCHAR(32)  NOT NULL,
+  role      VARCHAR(48)  NOT NULL,
+  phone     VARCHAR(32)  NOT NULL,
+  email     VARCHAR(32)  NOT NULL,
+  address   VARCHAR(100) NOT NULL,
+  createdAt DATETIME     NOT NULL,
+  updatedAt DATETIME     NOT NULL,
+
+  PRIMARY KEY (id)
+);

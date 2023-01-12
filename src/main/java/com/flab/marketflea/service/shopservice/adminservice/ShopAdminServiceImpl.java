@@ -59,4 +59,3 @@ public class ShopAdminServiceImpl implements ShopAdminService {
         shopMapper.updateShopStatus(id, ShopStatus.CLOSED);
     }
 }
-

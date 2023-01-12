@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.flab.marketflea.mapper.SellerMapper">
+
+  <insert id="signUp" parameterType="com.flab.marketflea.model.seller.Seller">
+    INSERT
+    INTO seller(userId, name, role, shopName, phone, email, address, password, createdAt, updatedAt)
+    VALUES (#{userId}, #{name}, #{role}, #{shopName}, #{phone}, #{email}, #{address}, #{password}, now(), now())
+  </insert>
+
+  <select id="findByIdAndPassword" resultType="com.flab.marketflea.model.seller.Seller">
+    SELECT userId, name, role, shopName, phone, email, address, password, createdAt, updatedAt
+    FROM seller
+    WHERE userId = #{userId} and password = #{password}
+  </select>
+
+  <select id="isShopNameExist" resultType="boolean">
+    SELECT EXISTS(SELECT * FROM seller WHERE shopName = #{shopName})
+  </select>
+
+  <select id="isIdExist" resultType="boolean">
+    SELECT EXISTS(SELECT * FROM seller WHERE userId = #{userId})
+  </select>
+
+  <select id="getSellerById" resultType="com.flab.marketflea.model.seller.Seller">
+    SELECT userId, password, name, shopName, role, phone, email, address, createdAt, updatedAt
+    FROM seller
+    WHERE id = #{id}
+  </select>
+
+  <update id="update" parameterType="com.flab.marketflea.model.seller.Seller">
+    UPDATE seller
+    SET name = #{name}, phone = #{phone}, shopName = #{shopName}, address= #{address}, email = #{email}
+    WHERE id = #{id}
+  </update>
+
+  <update id="updatePassword" parameterType="com.flab.marketflea.model.seller.UpdatePasswordSeller">
+    UPDATE seller
+    SET password = #{password}
+    WHERE userId = #{userId}
+  </update>
+
+  <delete id="deleteSeller" parameterType="com.flab.marketflea.model.seller.SellerLoginRequest">
+    DELETE FROM seller
+    WHERE userId = #{userId} AND password = #{password}
+  </delete>
+
+</mapper>

@@ -11,7 +11,7 @@
     </insert>
 
     <select id="isIdExist" resultType="boolean">
-        SELECT EXISTS(SELECT * FROM users WHERE userId = #{userId})
+        SELECT EXISTS(SELECT * FROM user WHERE userId = #{userId})
     </select>
 
     <select id="getUserById" resultType="com.flab.marketflea.model.user.User">
@@ -20,13 +20,19 @@
         WHERE userId = #{userId}
     </select>
 
+    <select id="findByIdAndPassword" resultType="com.flab.marketflea.model.user.User">
+        SELECT userId, password, name, role, phone, email, address, createdAt, updatedAt
+        FROM user
+        WHERE userId = #{userId} and password = #{password}
+    </select>
+
     <update id="updateUser" parameterType="com.flab.marketflea.model.user.UpdateUser">
         UPDATE user
         SET name = #{name}, phone = #{phone}, address = #{address}, email = #{email}
         WHERE userId = #{userId}
     </update>
 
-    <update id="updatePassword" parameterType="com.flab.marketflea.model.user.UpdatePasswordUser">
+    <update id="updatePassword" parameterType="com.flab.marketflea.mapper.param.UserPasswordUpdateParam">
         UPDATE user
         SET password = #{password}
         WHERE userId = #{userId}
