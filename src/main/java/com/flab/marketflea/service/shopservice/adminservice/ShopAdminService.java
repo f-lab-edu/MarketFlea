@@ -1,5 +1,4 @@
 package com.flab.marketflea.service.shopservice.adminservice;
-
 import org.springframework.stereotype.Service;
 
 @Service

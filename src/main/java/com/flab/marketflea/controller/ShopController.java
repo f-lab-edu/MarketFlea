@@ -45,7 +45,6 @@ public class ShopController {
         return OK;
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateShop(@PathVariable("id") long id,
         @Valid @RequestBody ShopRequest shop) {
