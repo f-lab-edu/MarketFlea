@@ -2,10 +2,10 @@ package com.flab.marketflea.service.loginservice;
 
 
 import com.flab.marketflea.common.SessionService;
-import com.flab.marketflea.model.request.LoginRequest;
 import com.flab.marketflea.model.user.Role;
 import com.flab.marketflea.service.loginservice.sellerservice.SellerService;
 import com.flab.marketflea.service.userservice.UserService;
+import com.flab.marketflea.service.userservice.command.UserLoginCommand;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,23 +17,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SessionLoginService implements LoginService {
 
-
     private static final String LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID";
     private final HttpSession httpSession;
-
     private final SessionService sessionService;
     private final SellerService sellerService;
     private final UserService userService;
 
     @Override
-    public void authenticate(LoginRequest loginRequest) {
-        String userId = loginRequest.getUserId();
-        String password = loginRequest.getPassword();
-        Role role = loginRequest.getRole();
+    public void authenticate(UserLoginCommand command) {
+        String userId = command.getUserId();
+        String password = command.getPassword();
+        Role role = command.getRole();
         if (isSeller(role)) {
             sellerService.getByIdAndPw(userId, password);
         } else {
-            userService.getByIdAndPw(userId, password);
+            userService.getUserById(command);
         }
         httpSession.setAttribute("LOGIN_MEMBER_ID", userId);
         httpSession.setAttribute("ROLE_KEY", role);

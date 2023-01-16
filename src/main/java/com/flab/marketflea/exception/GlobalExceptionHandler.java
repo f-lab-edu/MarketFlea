@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException e) {
-        log.debug("해당 User 를 찾을 수 없습니다.", e);
+        log.debug("해당 UserSignUpRequest 를 찾을 수 없습니다.", e);
         ErrorResponse response = new ErrorResponse(e.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }

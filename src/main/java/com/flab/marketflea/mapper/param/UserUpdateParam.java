@@ -1,18 +1,19 @@
-package com.flab.marketflea.model.user;
+package com.flab.marketflea.mapper.param;
 
+import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateUserInfo {
+public class UserUpdateParam {
 
+    @NotBlank(message = "아이디는 필수 입력 값입니다.")
     private String userId;
 
     private String name;
@@ -24,5 +25,4 @@ public class UpdateUserInfo {
     private String email;
 
     private LocalDateTime updatedAt;
-
 }

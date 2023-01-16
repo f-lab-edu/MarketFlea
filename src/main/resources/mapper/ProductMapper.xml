@@ -28,15 +28,15 @@
     <select id="isProductExist" resultType="boolean">
         SELECT EXISTS(SELECT * FROM product WHERE id = #{id})
     </select>
-    
+
     <update id="updateProduct" parameterType="com.flab.marketflea.model.product.Product">
         UPDATE product
         SET ProductName = #{productName}, category = #{category}, productQty = #{productQty}, price = #{price}, releaseDate = #{releaseDate}
         WHERE id = #{id}
     </update>
 
-   <delete id="deleteProduct" parameterType="com.flab.marketflea.model.product.Product">
-      DELETE FROM product
-      WHERE id = #{id}
+    <delete id="deleteProduct" parameterType="com.flab.marketflea.model.product.Product">
+        DELETE FROM product
+        WHERE id = #{id}
     </delete>
 </mapper>

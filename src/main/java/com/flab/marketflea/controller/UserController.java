@@ -5,14 +5,17 @@ import static com.flab.marketflea.common.ResponseEntityConstants.OK;
 import static com.flab.marketflea.common.ResponseEntityConstants.UNAUTHORIZED;
 
 import com.flab.marketflea.common.SessionService;
-import com.flab.marketflea.model.user.CustomerLoginRequest;
-import com.flab.marketflea.model.user.LoginUser;
-import com.flab.marketflea.model.user.UpdateUser;
-import com.flab.marketflea.model.user.User;
-import com.flab.marketflea.service.userservice.command.UserPasswordUpdateCommand;
+import com.flab.marketflea.model.user.UserInfoRequest;
+import com.flab.marketflea.model.user.UserLoginRequest;
 import com.flab.marketflea.model.user.UserPasswordUpdateRequest;
+import com.flab.marketflea.model.user.UserUpdateRequest;
+import com.flab.marketflea.security.PasswordEncoder;
 import com.flab.marketflea.service.loginservice.LoginService;
 import com.flab.marketflea.service.userservice.UserService;
+import com.flab.marketflea.service.userservice.command.UserInfoCommand;
+import com.flab.marketflea.service.userservice.command.UserLoginCommand;
+import com.flab.marketflea.service.userservice.command.UserPasswordUpdateCommand;
+import com.flab.marketflea.service.userservice.command.UserUpdateCommand;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,15 +37,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
-
     private final UserService userService;
     private final LoginService loginService;
     private final SessionService sessionService;
+    private final PasswordEncoder passwordEncoder;
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void signUp(@RequestBody User user) {
-        userService.signUp(user);
+    public void signUp(@RequestBody @Valid UserInfoRequest request) {
+        userService.signUp(UserInfoCommand
+            .builder()
+            .userId(request.getUserId())
+            .name(request.getName())
+            .role(request.getRole())
+            .phone(request.getPhone())
+            .email(request.getEmail())
+            .address(request.getAddress())
+            .password(passwordEncoder.encrypt(request.getPassword()))
+            .build());
     }
 
     @GetMapping("/{id}/duplicate")
@@ -54,11 +66,16 @@ public class UserController {
         return OK;
     }
 
-
     @ResponseStatus(value = HttpStatus.OK)
     @PostMapping("/login")
-    public void login(@RequestBody @Valid CustomerLoginRequest customerLoginRequest) {
-        loginService.authenticate(customerLoginRequest);
+    public void login(@RequestBody @Valid UserLoginRequest request) {
+        loginService.authenticate(
+            UserLoginCommand
+                .builder()
+                .userId(request.getUserId())
+                .password(request.getPassword())
+                .role(request.getRole())
+                .build());
     }
 
     @PostMapping("/logout")
@@ -67,13 +84,21 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody @Valid UpdateUser updateUser) {
+    public ResponseEntity<Void> update(@RequestBody @Valid UserUpdateRequest request) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
             return UNAUTHORIZED;
         }
-        userService.update(updateUser);
-
+        userService.update(
+            UserUpdateCommand
+                .builder()
+                .userId(request.getUserId())
+                .name(request.getName())
+                .phone(request.getPhone())
+                .email(request.getEmail())
+                .address(request.getAddress())
+                .updatedAt(request.getUpdatedAt())
+                .build());
         return OK;
     }
 
@@ -88,22 +113,22 @@ public class UserController {
                 .builder()
                 .userId(request.getUserId())
                 .password(request.getPassword())
-                .build()
-        );
+                .build());
         return OK;
     }
 
-
     @DeleteMapping
-    public ResponseEntity<Void> deleteUser(@RequestBody LoginUser loginUser) {
-
+    public ResponseEntity<Void> deleteUser(@RequestBody @Valid UserLoginRequest request) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
             return UNAUTHORIZED;
         }
-        userService.deleteUser(loginUser);
+        userService.deleteUser(
+            UserLoginCommand
+                .builder()
+                .userId(request.getUserId())
+                .password(request.getPassword())
+                .build());
         return OK;
     }
-
-
 }
