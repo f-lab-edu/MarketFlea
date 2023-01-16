@@ -1,6 +1,5 @@
 package com.flab.marketflea.controller;
 
-import static com.flab.marketflea.common.ResponseEntityConstants.CONFLICT;
 import static com.flab.marketflea.common.ResponseEntityConstants.OK;
 import static com.flab.marketflea.common.ResponseEntityConstants.UNAUTHORIZED;
 
@@ -39,15 +38,6 @@ public class ProductController {
             return UNAUTHORIZED;
         }
         productService.addProduct(requestDto);
-        return OK;
-    }
-
-    @GetMapping("/{id}/duplicate")
-    public ResponseEntity<Void> isIdDuplicated(@PathVariable long id) {
-        boolean isIdDuplicated = productService.isProductExist(id);
-        if (isIdDuplicated) {
-            return CONFLICT;
-        }
         return OK;
     }
 

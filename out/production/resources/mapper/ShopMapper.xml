@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.flab.marketflea.mapper.ShopMapper">
+
+    <insert id="createShop" parameterType="com.flab.marketflea.model.shop.ShopRequest">
+        INSERT
+        INTO shop(id, shopName, shopPhone, status, shopOpenTime, shopCloseTime, createdAt, updatedAt)
+        VALUES (#{id}, #{shopName}, #{shopPhone}, #{status}, #{shopOpenTime}, #{shopCloseTime}, now(), now())
+    </insert>
+
+    <select id="isShopExist" resultType="boolean">
+        SELECT EXISTS(SELECT * FROM shop WHERE id = #{id})
+    </select>
+
+    <select id="getShopByShopId" resultType="com.flab.marketflea.model.shop.ShopResponse">
+        SELECT id, shopName, shopPhone, status, shopOpenTime, shopCloseTime, createdAt, updatedAt
+        FROM shop
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateShop" parameterType="com.flab.marketflea.model.shop.ShopRequest">
+        UPDATE shop
+        SET shopName = #{shopName}, shopPhone = #{shopPhone}, shopOpenTime = #{shopOpenTime}, shopCloseTime = #{shopCloseTime}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteShop" parameterType="com.flab.marketflea.model.shop.Shop">
+        DELETE FROM shop
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updateShopStatus">
+        UPDATE shop
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

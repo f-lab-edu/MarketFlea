@@ -15,12 +15,6 @@
         WHERE id = #{id}
     </select>
 
-    <update id="updateProduct" parameterType="com.flab.marketflea.model.product.Product">
-        UPDATE product
-        SET productName = #{productName}, category = #{category}, productQty = #{productQty}, price = #{price}, releaseDate = #{releaseDate}
-        WHERE id = #{id}
-    </update>
-
     <select id="checkDuplicateProductName" resultType="boolean">
         SELECT EXISTS(SELECT * FROM product WHERE productName = #{productName})
     </select>
@@ -28,7 +22,6 @@
     <select id="isProductExist" resultType="boolean">
         SELECT EXISTS(SELECT * FROM product WHERE id = #{id})
     </select>
-
     <update id="updateProduct" parameterType="com.flab.marketflea.model.product.Product">
         UPDATE product
         SET ProductName = #{productName}, category = #{category}, productQty = #{productQty}, price = #{price}, releaseDate = #{releaseDate}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.flab.marketflea.mapper.UserMapper">
+
+    <insert id="signUpUser">
+        INSERT
+        INTO user(userId, password, name, role, phone, email, address, createdAt, updatedAt)
+        VALUES (#{userId}, #{password}, #{name}, #{role}, #{phone}, #{email}, #{address}, now(), now())
+    </insert>
+
+    <select id="isIdExist" resultType="boolean">
+        SELECT EXISTS(SELECT * FROM user WHERE userId = #{userId})
+    </select>
+
+    <select id="getUserById" resultType="com.flab.marketflea.model.user.UserInfoRequest">
+        SELECT userId, password, name, role, phone, email, address, createdAt, updatedAt
+        FROM user
+        WHERE userId = #{userId}
+    </select>
+
+    <update id="updateUser">
+        UPDATE user
+        SET name = #{name}, phone = #{phone}, address = #{address}, email = #{email}
+        WHERE userId = #{userId}
+    </update>
+
+    <update id="updatePassword">
+        UPDATE user
+        SET password = #{password}
+        WHERE userId = #{userId}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM user
+        WHERE userId = #{userId} AND password = #{password}
+    </delete>
+
+
+</mapper>
