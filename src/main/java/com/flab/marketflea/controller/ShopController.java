@@ -70,13 +70,13 @@ public class ShopController {
         return OK;
     }
 
-    @GetMapping("/checkSchedule/{id}")
-    public ShopOpenTimeInfo checkShopSchedule(@PathVariable("id") long id) {
+    @GetMapping("/shopSchedule/{id}")
+    public ShopOpenTimeInfo getShopSchedule(@PathVariable("id") long id) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
             throw new UserNotFoundException("UserNotFoundException", ErrorCode.USER_NOT_FOUND);
         }
-        return shopService.CheckShopSchedule(id);
+        return shopService.getShopSchedule(id);
     }
 
 }

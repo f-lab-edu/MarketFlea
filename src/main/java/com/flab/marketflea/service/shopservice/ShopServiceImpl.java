@@ -83,7 +83,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     @Transactional
-    public ShopOpenTimeInfo CheckShopSchedule(long id) {
+    public ShopOpenTimeInfo getShopSchedule(long id) {
 
         Shop.ShopStatus shopStatus = shopMapper.getShopByShopId(id).getStatus();
         LocalDateTime currentDate = LocalDateTime.now();
@@ -96,7 +96,7 @@ public class ShopServiceImpl implements ShopService {
         if (currentDate.isAfter(getShopByShopId(id).getShopOpenTime())) {
             throw new InValidStatusException("InValidStatusException", ErrorCode.INVALID_SHOP_STATUS);
         }
-        return shopMapper.checkShopSchedule(id);
+        return shopMapper.getShopSchedule(id);
     }
 
 }

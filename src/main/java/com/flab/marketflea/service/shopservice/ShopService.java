@@ -9,14 +9,9 @@ import org.springframework.stereotype.Service;
 public interface ShopService {
 
     void createShop(ShopRequest shop);
-
     boolean isShopExist(long shopId);
-
     ShopResponse getShopByShopId(long shopId);
-
     void updateShop(long id, ShopRequest shop);
-
     void deleteShop(long id, ShopRequest shop);
-
-    ShopOpenTimeInfo CheckShopSchedule(long id);
+    ShopOpenTimeInfo getShopSchedule(long id);
 }

@@ -37,7 +37,7 @@
         WHERE id = #{id}
     </update>
 
-    <select id="checkShopSchedule" resultType="com.flab.marketflea.model.shop.ShopOpenTimeInfo">
+    <select id="getShopSchedule" resultType="com.flab.marketflea.model.shop.ShopOpenTimeInfo">
         SELECT id, shopName, shopOpenTime, shopCloseTime
         FROM shop
         WHERE id = #{id}
