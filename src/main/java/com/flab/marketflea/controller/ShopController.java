@@ -70,7 +70,7 @@ public class ShopController {
         return OK;
     }
 
-    @GetMapping("/shopSchedule/{id}")
+    @GetMapping("/{id}/schedules")
     public ShopOpenTimeInfo getShopSchedule(@PathVariable("id") long id) {
         boolean isLoginUser = sessionService.isLoginUser();
         if (!isLoginUser) {
