@@ -7,6 +7,7 @@ import com.flab.marketflea.exception.shop.ShopNotFoundException;
 import com.flab.marketflea.mapper.ShopMapper;
 import com.flab.marketflea.model.shop.Shop;
 import com.flab.marketflea.model.shop.Shop.ShopStatus;
+import com.flab.marketflea.model.shop.ShopOpenTimeInfo;
 import com.flab.marketflea.model.shop.ShopRequest;
 import com.flab.marketflea.model.shop.ShopResponse;
 import java.time.LocalDateTime;
@@ -78,6 +79,24 @@ public class ShopServiceImpl implements ShopService {
             throw new ShopNotFoundException("ShopNotFoundException", ErrorCode.SHOP_NOT_FOUND);
         }
         shopMapper.deleteShop(id,shop);
+    }
+
+    @Override
+    @Transactional
+    public ShopOpenTimeInfo getShopSchedule(long id) {
+
+        Shop.ShopStatus shopStatus = shopMapper.getShopByShopId(id).getStatus();
+        LocalDateTime currentDate = LocalDateTime.now();
+        if (shopStatus != ShopStatus.APPROVED) {
+            throw new InValidStatusException("InValidStatusException", ErrorCode.INVALID_SHOP_STATUS);
+        }
+        if (!shopMapper.isShopExist(id)) {
+            throw new ShopNotFoundException("ShopNotFoundException", ErrorCode.SHOP_NOT_FOUND);
+        }
+        if (currentDate.isAfter(getShopByShopId(id).getShopOpenTime())) {
+            throw new InValidStatusException("InValidStatusException", ErrorCode.INVALID_SHOP_STATUS);
+        }
+        return shopMapper.getShopSchedule(id);
     }
 
 }

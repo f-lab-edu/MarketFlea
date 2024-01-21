@@ -5,7 +5,10 @@ import static com.flab.marketflea.common.ResponseEntityConstants.CONFLICT;
 import static com.flab.marketflea.common.ResponseEntityConstants.OK;
 import static com.flab.marketflea.common.ResponseEntityConstants.UNAUTHORIZED;
 
+import com.flab.marketflea.common.ErrorCode;
 import com.flab.marketflea.common.SessionService;
+import com.flab.marketflea.exception.user.UserNotFoundException;
+import com.flab.marketflea.model.shop.ShopOpenTimeInfo;
 import com.flab.marketflea.model.shop.ShopRequest;
 import com.flab.marketflea.service.shopservice.ShopService;
 import javax.validation.Valid;
@@ -65,6 +68,15 @@ public class ShopController {
         }
         shopService.deleteShop(id, shopRequest);
         return OK;
+    }
+
+    @GetMapping("/{id}/schedules")
+    public ShopOpenTimeInfo getShopSchedule(@PathVariable("id") long id) {
+        boolean isLoginUser = sessionService.isLoginUser();
+        if (!isLoginUser) {
+            throw new UserNotFoundException("UserNotFoundException", ErrorCode.USER_NOT_FOUND);
+        }
+        return shopService.getShopSchedule(id);
     }
 
 }
